@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revista Física Virtual: Unidad IV - Entradas y Salidas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #F5F5F5;
+  color: #333;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: #1A3E5C;
+}
+
+a, button, figure {
+  transition: all .3s ease;
+}
+
+/* === Contenedores principales === */
+.page-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+/* === Portada === */
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(26, 62, 92, 0.8), rgba(44, 95, 138, 0.8)), 
+              url('img/backgraund.png') center/cover;
+  color: #fff;
+  min-height: 100vh;
+  position: relative;
+}
+
+#cover-title {
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
+  color: #fff !important;
+  position: relative;
+  z-index: 1;
+}
+
+.cover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+}
+
+/* === Navegación === */
+.nav-zone {
+  position: fixed;
+  top: 0;
+  width: 15%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: all;
+  transition: opacity 0.3s;
+  margin-bottom: 1rem;
+}
+
+#nav-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+}
+
+#nav-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.2), transparent);
+}
+
+.nav-zone:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* === Contenido artículos === */
+.article {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  margin-bottom: 2rem;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.highlight-block {
+  background: #E8F5EF;
+  padding: 2rem;
+  border-left: 4px solid #6DAA8B;
+  margin: 2rem 0;
+}
+
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.1);
+}
+
+/* === Componentes interactivos === */
+/* === Índice Mejorado === */
+.toc {
+  padding: 2rem;
+  background: linear-gradient(to right, #f8f9fa, #ffffff);
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 800px;
+  position: relative;
+  overflow: hidden;
+}
+
+.toc::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #6DAA8B;
+}
+
+.toc ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 0;
+}
+
+.toc li {
+  position: relative;
+  padding-left: 2.5rem;
+  margin: 1rem 0;
+  transition: transform 0.3s;
+}
+
+.toc li::before {
+  content: counter(item-counter);
+  counter-increment: item-counter;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #2C5F8A;
+  font-weight: 700;
+}
+
+.toc a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(26, 62, 92, 0.1);
+  text-decoration: none !important;
+  min-height: 80px;
+}
+
+.toc a::after {
+  content: '→';
+  margin-left: auto;
+  color: #6DAA8B;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.toc a:hover {
+  transform: translateX(10px);
+  box-shadow: 0 4px 12px rgba(26, 62, 92, 0.15);
+}
+
+.toc a:hover::after {
+  opacity: 1;
+}
+
+/* Espacio para imágenes futuras */
+.toc .img-placeholder {
+  width: 60px;
+  height: 60px;
+  background: #e8f5ef;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* Números decorativos */
+.toc {
+  counter-reset: item-counter;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toc ul {
+    grid-template-columns: 1fr;
+  }
+  
+  .toc a {
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: auto;
+  }
+  
+  .toc .img-placeholder {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 1rem;
+  }
+}
+
+.key-points li {
+  margin: .8rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+/* === Contraportada === */
+.back-cover {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 2rem;
+  background: #fff;
+}
+
+.back-cover blockquote {
+  font-style: italic;
+  color: #1A3E5C;
+  font-size: 1.2rem;
+}
+
+/* === Formularios y botones === */
+.btn-primary, .btn-secondary {
+  padding: .8rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+.btn-primary {
+  background: #2C5F8A;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #6DAA8B;
+  color: #fff;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  filter: brightness(1.1);
+}
+
+form textarea {
+  width: 100%;
+  height: 6rem;
+  margin-top: .5rem;
+  padding: .5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .page {
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  #cover-title {
+    font-size: 2.2rem;
+  }
+  
+  .two-column, .grid, .back-cover {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-zone {
+    width: 25%;
+  }
+}
+
+.challenge {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.cover-subtitles,
+#cover-qr {
+  display: none !important;
+}
+
+/* === Efectos de imagen flotante === */
+.floating-image {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* === Barra de progreso del quiz === */
+.progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #6DAA8B;
+  transition: width 0.5s ease;
+}
+
+/* === Tarjetas interactivas === */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.card {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* === Ajustes finales de contraste === */
+.highlight-block {
+  border-left: 4px solid #2C5F8A;
+  background: #f8f9fa;
+}
+
+/* === Mejora en formularios === */
+input, textarea {
+  border: 2px solid #ddd !important;
+  transition: border-color 0.3s !important;
+}
+
+input:focus, textarea:focus {
+  border-color: #6DAA8B !important;
+  outline: none;
+}
+
+/* === Ajuste específico móvil === */
+@media (max-width: 480px) {
+  .article {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+  
+  .floating-image {
+    max-width: 80%;
+  }
+}
+
+/* === Efecto de carga suave === */
+.page {
+  opacity: 1;
+  transition: 
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease;
+}
+
+.page.inactive {
+  opacity: 0.5;
+}
+
+
+/* Ajustes generales de artículos */
+.article {
+  max-width: 1200px; /* Reducir el ancho máximo */
+  padding: 1.5rem;
+  margin: 1rem auto;
+}
+
+/* Contenedor de ejemplos de formularios */
+.examples.grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Tarjetas de formularios */
+.card {
+  max-width: 400px; /* Tamaño máximo para PC */
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.card figure {
+  overflow: hidden;
+  border-radius: 6px;
+  margin: 0;
+}
+
+/* Imágenes dentro de las tarjetas */
+.card img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.02);
+}
+
+/* Ajustes específicos para el artículo de formularios */
+#art3 .two-column {
+  gap: 1.5rem;
+  align-items: start;
+}
+
+#art3 .content {
+  padding-right: 2rem;
+}
+
+/* Ajustes de texto */
+.key-points li {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Media query para mantener ajustes en PC */
+@media (min-width: 1024px) {
+  .page-container {
+    overflow: hidden;
+  }
+  
+  .article.two-column {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  
+  .quiz-game.card {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.scrollable-content {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+.scrollable-content {
+  /* Oculta scrollbar en Firefox */
+  scrollbar-width: none;
+  
+  /* Oculta scrollbar en IE/Edge */
+  -ms-overflow-style: none;
+}
+
+/* Oculta scrollbar en WebKit (Chrome/Safari) */
+.scrollable-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+/* Estilos específicos para art1 */
+.principle-header {
+  border-bottom: 2px solid #2C5F8A;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.deco-line {
+  height: 2px;
+  background: #6DAA8B;
+  width: 60px;
+  margin-top: 0.5rem;
+}
+
+.principle-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+.principle-item .icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.flow-steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.step-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2C5F8A;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 auto 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-item {
+  padding: 1rem;
+  background: #E8F5EF;
+  border-radius: 8px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1A3E5C;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .flow-steps {
+    flex-direction: column;
+  }
+  
+  .principle-item {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Estilos para explicaciones */
+.section-intro {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.point-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.point-explanation {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+  margin-left: 2.3rem;
+}
+
+.layer-content p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.code-caption {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .point-explanation {
+    margin-left: 0;
+  }
+  
+  .point-header {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+/* Estilos específicos para art2 */
+.step-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-icon {
+  font-size: 2rem;
+  background: #E8F5EF;
+  padding: 0.8rem;
+  border-radius: 8px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.tool-card {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #2C5F8A;
+}
+
+.step-image {
+  width: 100%;
+  border-radius: 6px;
+  margin-top: 1rem;
+  border: 1px solid #eee;
+}
+
+.checklist {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.checklist li::before {
+  content: '✓';
+  color: #6DAA8B;
+  margin-right: 0.5rem;
+}
+
+.numbered-list {
+  counter-reset: step-counter;
+  padding-left: 1.5rem;
+}
+
+.numbered-list li {
+  counter-increment: step-counter;
+  margin: 0.8rem 0;
+}
+
+.numbered-list li::before {
+  content: counter(step-counter);
+  background: #2C5F8A;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.8rem;
+}
+
+.highlight-card {
+  background: #1A3E5C !important;
+  color: white;
+}
+
+.highlight-card .btn-secondary {
+  background: #6DAA8B;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .step-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .step-icon {
+    margin: 0 auto;
+  }
+}
+
+
+/* Estilos específicos para art3 */
+.form-grid {
+  gap: 2rem;
+}
+
+.conversion-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.conversion-rate {
+  text-align: center;
+  background: #1A3E5C;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  min-width: 180px;
+}
+
+.rate-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rate-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.conversion-factors {
+  column-count: 2;
+  gap: 1.5rem;
+}
+
+.principle-item {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+.principle-icon {
+  width: 35px;
+  height: 35px;
+  background: #2C5F8A;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.form-example img {
+  border: 2px solid #eee;
+  border-radius: 8px;
+  margin: 1rem 0;
+  transition: transform 0.3s;
+}
+
+.form-example img:hover {
+  transform: scale(1.02);
+}
+
+.error-list li {
+  color: #dc3545;
+  margin: 0.5rem 0;
+}
+
+.success-list li {
+  color: #28a745;
+  margin: 0.5rem 0;
+}
+
+.template-card {
+  padding: 2rem !important;
+}
+
+.template-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.template-preview img {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.template-features li {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.download-icon {
+  margin-right: 0.8rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 768px) {
+  .conversion-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .before-after {
+    grid-template-columns: 1fr;
+  }
+  
+  .template-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilos específicos para art4 */
+.media-comparison {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0;
+}
+
+.print-metaphor, .digital-metaphor {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.print-metaphor {
+  background: white;
+  border: 2px solid #1A3E5C;
+}
+
+.digital-metaphor {
+  background: white;
+  border: 2px solid #1A3E5C;
+}
+
+.print-metaphor .icon, .digital-metaphor .icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.spec-list li {
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.conversion-chart img {
+  width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.exercise-steps {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.step {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.step-number {
+  width: 20px;
+  height: 20px;
+  background: #2C5F8A;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.tag-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.tag {
+  background: #6DAA8B;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.pro-tip pre {
+  background: #1A3E5C;
+  color: white;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .media-comparison {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Estilos específicos para art5 */
+.case-grid {
+  gap: 2rem;
+}
+
+.case-header {
+  text-align: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 1rem;
+}
+
+.company-logo {
+  height: 50px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.case-points li {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.point-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.lesson-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: #E8F5EF;
+  border-radius: 8px;
+}
+
+.lesson-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .case-points li {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .point-icon {
+    margin: 0 auto;
+  }
+}
+
+/* Estilos contraportada */
+.back-cover {
+  position: relative;
+  background: #f5f5f5;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spine-effect {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: #1A3E5C;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spine-title {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 2px;
+}
+
+.author-bio {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.author-photo {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.social-links {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.social-icon:hover {
+  opacity: 1;
+}
+
+.tech-summary {
+  column-count: 2;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.learned-list {
+  break-inside: avoid;
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.learned-list li::before {
+  content: '▹';
+  color: #6DAA8B;
+  margin-right: 0.5rem;
+}
+
+.qr-section {
+  text-align: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.qr-section img {
+  width: 150px;
+  margin: 0 auto;
+}
+
+.feedback-module {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+  .author-bio {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-summary {
+    column-count: 1;
+  }
+}
+@media (hover: none) {
+  .nav-zone:hover {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    position: absolute; /* Mantener absoluto para que el translateX funcione */
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto; /* Permite scroll en cada página si se requiere */
+  }
+  
+  #cover-title {
+    font-size: 2.2rem;
+  }
+  
+  .two-column, .grid, .back-cover {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-zone {
+    width: 25%;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Portada -->
+    <section class="page active" id="pr0">
+  <div class="cover">
+    <div class="cover-container">
+      <div class="cover-content">
+        <h1 id="cover-title">UNIDAD IV:<br>Entradas & Salidas</h1>
+        <p id="cover-tagline">De la Captura de Datos<br>al Diseño de Salida</p>
+      </div>
+      <div class="cover-image">
+        <!-- Imagen decorativa opcional -->
+        <img src="img/usuario-removebg-preview.png" alt="Diseño de revista" class="floating-image"> 
+      </div>
+    </div>
+  </div>
+    </section>
+
+    <!-- Índice -->
+<section class="page" id="pr1">
+  <nav class="toc">
+    <ul>
+      <li><a href="#art1">
+        <div class="img-placeholder"></div>
+        <span>1. Fundamentos del Diseño de E/S</span>
+      </a></li>
+      
+      <li><a href="#art2">
+        <div class="img-placeholder"></div>
+        <span>2. Prototipado Interactivo</span>
+      </a></li>
+
+      <li><a href="#art3">
+        <div class="img-placeholder"></div>
+        <span>3. Formularios Web Optimizados</span>
+      </a></li>
+
+      <li><a href="#art4">
+        <div class="img-placeholder"></div>
+        <span>4. Diseño Multiformato</span>
+      </a></li>
+
+      <li><a href="#art5">
+        <div class="img-placeholder"></div>
+        <span>5. Casos de Éxito Real</span>
+      </a></li>
+
+      <li><a href="#art6">
+        <div class="img-placeholder"></div>
+        <span>6. UX Gamificado</span>
+      </a></li>
+    </ul>
+  </nav>
+</section>
+
+    <!-- Artículos -->
+ <section class="page" id="art1">
+    <article class="article">
+        <h2 class="article-title">Diseño E/S: La interfaz crítica en sistemas</h2>
+        
+        <!-- Introducción -->
+        <div class="lead-section">
+            <p class="lead-text">En la era de los sistemas transaccionales, el diseño de Entradas/Salidas se ha convertido en el <em>punto neuralgico</em> de la eficiencia operativa. Este artículo desglosa principios técnicos y patrones de implementación validados por estudios recientes de UX Engineering.</p>
+        </div>
+
+        <div class="scrollable-content">
+            <div class="grid technical-grid">
+                <!-- Columna Izquierda -->
+                <div class="card principle-card">
+                    <div class="principle-header">
+                        <h3>📥 Principios de Entrada</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <ul class="key-points">
+                        <li class="principle-item">
+                            <span class="icon">⏱️</span>
+                            <div>
+                                <h4>Ley de Hick-Hyman</h4>
+                                <p>≤7 opciones por campo · 100ms/opción</p>
+                            </div>
+                        </li>
+                        <li class="principle-item">
+                            <span class="icon">🔍</span>
+                            <div>
+                                <h4>Validación Contextual</h4>
+                                <p>Expresiones regulares en tiempo real</p>
+                            </div>
+                        </li>
+                        <li class="principle-item">
+                            <span class="icon">🗃️</span>
+                            <div>
+                                <h4>Mapeo 1:1</h4>
+                                <p>Relación directa campo-DB</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta Full Width Centrada -->
+                <div class="card stats-card" style="grid-column: 1 / -1; grid-row: 2;">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">42%</div>
+                            <div class="stat-label">Reducción de errores</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">55%</div>
+                            <div class="stat-label">Optimización recursos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3.1x</div>
+                            <div class="stat-label">Velocidad proceso</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha -->
+                <div class="card principle-card">
+                    <div class="principle-header">
+                        <h3>⚙️ Pipeline de Datos</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-bubble">1</div>
+                            <p>Sanitización<br><em>UTF-8 Strict</em></p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-bubble">2</div>
+                            <p>Validación<br><em>Regex + Lógica</em></p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-bubble">3</div>
+                            <p>Persistencia<br><em>Transacciones ACID</em></p>
+                        </div>
+                    </div>
+                    <div class="code-sample">
+                        <pre>// Flujo básico
+input → sanitize() 
+       → validate() 
+       → save()</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<section class="page" id="art2">
+    <article class="article">
+        <h2 class="article-title">Prototipado Interactivo: Del Wireframe a la Realidad</h2>
+        
+        <div class="scrollable-content">
+            <!-- Introducción -->
+            <div class="highlight-block intro-block">
+                <p>El prototipado moderno combina diseño y funcionalidad. Según un estudio de NNGroup (2023), los prototipos interactivos:</p>
+                <ul class="impact-metrics">
+                    <li>📈 Aumentan 40% la detección temprana de errores</li>
+                    <li>🕒 Reducen 65% el tiempo de desarrollo</li>
+                    <li>🤝 Mejoran 80% la comunicación equipo-cliente</li>
+                </ul>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="grid technical-grid">
+                <!-- Paso 1 -->
+                <div class="card step-card">
+                    <div class="step-header">
+                        <div class="step-icon">🎨</div>
+                        <h3>1. Sketching Digital</h3>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">Transforma ideas en estructuras básicas con herramientas low-code:</p>
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Figma Jam</h4>
+                                <ul>
+                                    <li>Wireframes colaborativos</li>
+                                    <li>Biblioteca de componentes</li>
+                                </ul>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Balsamiq</h4>
+                                <ul>
+                                    <li>Sketching rápido</li>
+                                    <li>Exportación a HTML</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <img src="img/06-online-shop-wireframe-example.png" alt="Ejemplo wireframe" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="card step-card">
+                    <div class="step-header">
+                        <div class="step-icon">🔗</div>
+                        <h3>2. Flujo Interactivo</h3>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">Conecta pantallas creando lógica de navegación:</p>
+                        <div class="code-sample">
+                            <pre>// Ejemplo hotspot
+button.addEventListener('click', () => {
+    navigateToScreen('checkout');
+});</pre>
+                        </div>
+                        <div class="best-practices">
+                            <h4>Buenas Prácticas:</h4>
+                            <ul class="checklist">
+                                <li>Transiciones de 300ms</li>
+                                <li>Feedback táctil en móviles</li>
+                                <li>Estados hover/focus</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="card step-card">
+                    <div class="step-header">
+                        <div class="step-icon">🧪</div>
+                        <h3>3. Testing Contextual</h3>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">Valida con usuarios reales usando técnicas ágiles:</p>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value">5s</div>
+                                <div class="stat-label">Tiempo atención inicial</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">Iteraciones promedio</div>
+                            </div>
+                        </div>
+                        <div class="testing-tips">
+                            <h4>Checklist de Validación:</h4>
+                            <ol class="numbered-list">
+                                <li>Flujo intuitivo en < 3 clicks</li>
+                                <li>Contraste AA mínimo</li>
+                                <li>Load time < 2s</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consejo destacado -->
+                <div class="card highlight-card" style="grid-column: 1 / -1;">
+                    <div class="tip-content">
+                        <div class="tip-icon">💡</div>
+                        <div>
+                            <h3>Prototipo Efectivo en 1 Día</h3>
+                            <p>Usa nuestra plantilla descargable con:</p>
+                            <ul class="feature-list">
+                                <li>10 componentes base</li>
+                                <li>3 flujos predefinidos</li>
+                                <li>Guía de estilo incluida</li>
+                            </ul>
+                            <button class="btn-secondary">Descargar Kit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+   <section class="page" id="art3">
+    <article class="article">
+        <h2 class="article-title">Formularios que Convierten: Ciencia y Estética</h2>
+        
+        <div class="scrollable-content">
+            <!-- Introducción con estadística -->
+            <div class="highlight-block intro-block">
+                <div class="conversion-header">
+                    <div class="conversion-rate">
+                        <div class="rate-number">47%</div>
+                        <div class="rate-label">Aumento en conversiones</div>
+                    </div>
+                    <p>Según el estudio de Baymard Institute (2023), los formularios optimizados pueden reducir el abandono hasta en un 62% mediante:</p>
+                </div>
+                <ul class="conversion-factors">
+                    <li>✅ Reducción de campos innecesarios</li>
+                    <li>✅ Validación predictiva</li>
+                    <li>✅ Diseño mobile-first</li>
+                </ul>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="grid form-grid">
+                <!-- Principios clave -->
+                <div class="card principle-card">
+                    <div class="principle-header">
+                        <h3>📋 Anatomía del Formulario Perfecto</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <div class="principle-list">
+                        <div class="principle-item">
+                            <div class="principle-icon">1</div>
+                            <div>
+                                <h4>Agrupación Inteligente</h4>
+                                <p>Campos relacionados en grupos de 3-5 máximo</p>
+                            </div>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-icon">2</div>
+                            <div>
+                                <h4>Progresión Visual</h4>
+                                <p>Indicador de progreso en formularios largos</p>
+                            </div>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-icon">3</div>
+                            <div>
+                                <h4>Ayuda Contextual</h4>
+                                <p>Tooltips activados por hover/focus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo Bueno/Malo -->
+                <div class="card comparison-card">
+                    <div class="comparison-header">
+                        <h3>🔄 Transformación UX</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <div class="before-after">
+                        <div class="form-example bad-example">
+                            <h4>Antes: Problemas Comunes</h4>
+                            <img src="img/formu generico.webp" alt="Formulario mal diseñado">
+                            <ul class="error-list">
+                                <li>❌ 12 campos visibles</li>
+                                <li>❌ Sin agrupación lógica</li>
+                                <li>❌ Feedback ambiguo</li>
+                            </ul>
+                        </div>
+                        <div class="form-example good-example">
+                            <h4>Después: Solución Optimizada</h4>
+                            <img src="img/espotidfi.png" alt="Formulario mejorado">
+                            <ul class="success-list">
+                                <li>✅ 5 campos por paso</li>
+                                <li>✅ Agrupación por categorías</li>
+                                <li>✅ Validación en tiempo real</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+    <!-- Artículo 4: Salidas -->
+<section class="page" id="art4">
+    <article class="article">
+        <h2 class="article-title">Diseño Multiformato: Del Papel al Pixel</h2>
+        
+        <div class="scrollable-content">
+            <!-- Introducción con metáfora visual -->
+            <div class="highlight-block intro-block">
+                <div class="media-comparison">
+                    <div class="print-metaphor">
+                        <span class="icon">📄</span>
+                        <h3>Estático · Permanente · Tangible</h3>
+                    </div>
+                    <div class="digital-metaphor">
+                        <span class="icon">🖥️</span>
+                        <h3>Dinámico · Actualizable · Interactivo</h3>
+                    </div>
+                </div>
+                <p class="lead-text">Según el estudio de Smashing Magazine (2023), el diseño multiformato efectivo requiere:</p>
+                <ul class="crossmedia-list">
+                    <li>📐 Sistemas de cuadrícula flexibles</li>
+                    <li>🎨 Paletas de color adaptables</li>
+                    <li>🔠 Jerarquía tipográfica consistente</li>
+                </ul>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="grid format-grid">
+                <!-- Comparativa técnica -->
+                <div class="card comparison-card">
+                    <div class="comparison-header">
+                        <h3>⚖️ Análisis Técnico: Impreso vs Digital</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <div class="specs-grid">
+                        <div class="spec-item print-spec">
+                            <h4>🖨️ Impresión Offset</h4>
+                            <ul class="spec-list">
+                                <li>Resolución: 300-1200 dpi</li>
+                                <li>Espaciado: Mín. 3 mm sangrado</li>
+                                <li>Color: CMYK + Pantones</li>
+                            </ul>
+                        </div>
+                        <div class="spec-item digital-spec">
+                            <h4>🌐 Web Responsive</h4>
+                            <ul class="spec-list">
+                                <li>Resolución: 72-144 ppi</li>
+                                <li>Espaciado: Unidades relativas (rem/em)</li>
+                                <li>Color: RGB + #HEX</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="conversion-chart">
+                        <h4>📈 Tasa de Conversión Multiformato</h4>
+                        <img src="img/conversion.jpg" alt="Gráfico de conversión">
+                        <p class="chart-caption">Impacto del diseño unificado en engagement (Fuente: Adobe 2023)</p>
+                    </div>
+                </div>
+
+                <!-- Guía práctica -->
+                <div class="card exercise-card">
+                    <div class="exercise-header">
+                        <h3>🛠️ Taller Práctico: Rediseño Adaptativo</h3>
+                        <div class="deco-line"></div>
+                    </div>
+                    <div class="exercise-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Análisis de Contenido</h4>
+                                <p>Identifica elementos clave y</p>
+                                  <p>prioriza información</p>
+                                <div class="tag-list">
+                                  <br>
+                                    <span class="tag">Texto principal</span>
+                                    <br>
+                                    <span class="tag">Datos numéricos</span>
+                                    <br>
+                                    <span class="tag">Llamados a acción</span>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Diseño Base</h4>
+                                <p>Crea estructura responsive con:</p>
+                                <pre>.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}</pre>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Adaptación Multimedia</h4>
+                                <ul class="adaptation-list">
+                                    <li>Impreso: SVG → PDF (Vectorial)</li>
+                                    <li>Digital: SVG → PNG (Raster)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consejo destacado -->
+                <div class="card pro-tip" style="grid-column: 1 / -1;">
+                    <div class="tip-content">
+                        <div class="tip-icon">💡</div>
+                        <div>
+                            <h3>Técnica de Diseño Unificado</h3>
+                            <p>Usa variables CSS para sincronizar estilos:</p>
+                            <pre>:root {
+    --color-primary: #1A3E5C;
+    --spacing-unit: 1rem;
+    --font-base: 'Montserrat', sans-serif;
+}</pre>
+                            <p>Aplica mismas variables en InDesign/Illustrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+    <!-- Artículo 5: Casos de Éxito -->
+    <section class="page" id="art5">
+    <article class="article">
+        <h2 class="article-title">Patrones de Éxito: Lecciones de Gigantes Digitales</h2>
+        
+        <div class="scrollable-content">
+            <!-- Introducción -->
+            <div class="highlight-block intro-block">
+                <p>Analizando los sistemas de líderes de la industria, encontramos patrones clave en diseño E/S:</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">0.3s</div>
+                        <div class="stat-label">Tiempo respuesta promedio</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Tasa de éxito en formularios</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="grid case-grid">
+                <!-- Google -->
+                <div class="card case-card">
+                    <div class="case-header">
+                        <img src="img/google.png" alt="Google" class="company-logo">
+                        <h3>Registro Ultra-Ágil</h3>
+                    </div>
+                    <div class="case-content">
+                        <div class="case-intro">
+                            <p>Revolucionando la captura de datos con:</p>
+                        </div>
+                        <ul class="case-points">
+                            <li>
+                                <span class="point-icon">🎯</span>
+                                <div>
+                                    <h4>Predictive Input</h4>
+                                    <p>Autocompletado basado en ML</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="point-icon">⚡</span>
+                                <div>
+                                    <h4>Validación en Tiempo Real</h4>
+                                    <p>Detección de errores al tipear</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="point-icon">🔄</span>
+                                <div>
+                                    <h4>Sync Multiplataforma</h4>
+                                    <p>Continúa en móvil donde dejaste en desktop</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Amazon -->
+                <div class="card case-card">
+                    <div class="case-header">
+                        <img src="img/amazon.jpg" alt="Amazon" class="company-logo">
+                        <h3>Checkout de 1-Clic</h3>
+                    </div>
+                    <div class="case-content">
+                        <div class="case-intro">
+                            <p>Optimizando la conversión mediante:</p>
+                        </div>
+                        <ul class="case-points">
+                            <li>
+                                <span class="point-icon">📦</span>
+                                <div>
+                                    <h4>Datos Persistentes</h4>
+                                    <p>Direcciones y pagos guardados</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="point-icon">🔐</span>
+                                <div>
+                                    <h4>Seguridad Contextual</h4>
+                                    <p>Reautenticación solo cuando es necesario</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="point-icon">📲</span>
+                                <div>
+                                    <h4>Diseño Adaptativo</h4>
+                                    <p>Flujo único para todos los dispositivos</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Lecciones clave -->
+                <div class="card lesson-card" style="grid-column: 1 / -1;">
+                    <div class="lesson-content">
+                        <h3>🧠 Takeaways Esenciales</h3>
+                        <div class="lesson-grid">
+                            <div class="lesson-item">
+                                <div class="lesson-icon">💡</div>
+                                <p>Priorizar velocidad sobre completitud</p>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-icon">💡</div>
+                                <p>Unificar experiencias cross-platform</p>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-icon">💡</div>
+                                <p>Anticipar necesidades del usuario</p>
+                            </div>
+                        </div>
+                        <div class="download-section">
+                            <button class="btn-secondary">
+                                <span class="icon">⤓</span> 
+                                Descargar Checklist
+                            </button>
+                            <p class="file-info">Incluye 15 puntos de verificación UX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+    <!-- Artículo 6: Entretenimiento UX -->
+    <section class="page" id="art6">
+        <article class="article">
+          <h2>6. Entretenimiento UX: Gamificación y Microjuegos</h2>
+          <p>¡Pon a prueba tus conocimientos con este quiz interactivo sobre diseño de interfaces!</p>
+          
+          <div class="quiz-game card">
+            <div id="quiz-header">
+              <h3>Quiz UX Express</h3>
+              <div class="progress-bar">
+                <div id="quiz-progress" class="progress-fill"></div>
+              </div>
+              <p id="score">Puntuación: 0/5</p>
+            </div>
+            
+            <div id="quiz-container">
+              <div id="question"></div>
+              <div id="options" class="grid two-column"></div>
+            </div>
+            
+            <div id="result" class="highlight-block" style="display:none;">
+              <h3 id="result-title"></h3>
+              <p id="result-text"></p>
+              <!-- botón de reintentar -->
+<button class="btn-secondary" onclick="Quiz.resetQuiz()">Reintentar</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+    <!-- Contraportada -->
+     <section class="page" id="prEnd">
+    <div class="back-cover">
+        <!-- Sección tipo lomo de libro -->
+        <div class="spine-effect">
+            <div class="spine-title">Diseño E/S · Unidad IV</div>
+            <div class="spine-decoration"></div>
+        </div>
+
+        <!-- Contenido principal contraportada -->
+        <div class="cover-content">
+            <!-- Biografía autor -->
+            <div class="author-bio">
+                <img src="img/WhatsApp Image 2025-05-11 at 10.57.30 AM.jpeg" alt="Foto del autor" class="author-photo">
+                <div class="bio-text">
+                    <h3>Sobre el autor</h3>
+<p>Soy Xavier Sanchez estudiante de la carrea de Ing. Sistemas 6to Semestre y Llore haciendo esta Revista Digital Interactiva.</p>                    <div class="social-links">
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">💼</a>
+                        <a href="#" class="social-icon">📧</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen técnico -->
+            <div class="tech-summary">
+                <h3>En esta unidad aprendiste:</h3>
+                <ul class="learned-list">
+                    <li>Patrones de diseño E/S</li>
+                    <li>Validación contextual</li>
+                    <li>Tolerancia al estrés</li>
+                    <li>Prototipado cross-platform</li>
+                </ul>
+                <!-- Formulario integrado -->
+            <div class="feedback-module">
+                <h3>¿Qué tema quieres en la próxima edición?</h3>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <textarea id="feedback" placeholder="Escribe tus sugerencias..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-secondary">
+                        <span class="icon">✉️</span> Enviar feedback
+                    </button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+  </div>
+
+  <div class="nav-zone" id="nav-left"></div>
+  <div class="nav-zone" id="nav-right"></div>
+
+  <script>
+    // Quiz Module Pattern
+const Quiz = (() => {
+  const questions = [
+    {
+      question: "¿Cuál es el máximo recomendado de campos en un formulario simple?",
+      options: ["5-7", "10-12", "15-20"],
+      answer: 0
+    },
+    {
+      question: "¿Qué principio establece que las opciones deben ser mínimas?",
+      options: ["Ley de Hick", "Principio de Pareto", "Ley de Fitts"],
+      answer: 0
+    },
+    {
+      question: "¿Qué color es mejor para mensajes de error?",
+      options: ["Azul", "Rojo", "Verde"],
+      answer: 1
+    },
+    {
+      question: "¿Qué elemento NO mejora un formulario?",
+      options: ["Autocompletado", "Validación en tiempo real", "Submenús anidados"],
+      answer: 2
+    },
+    {
+      question: "¿Qué técnica reduce la fatiga de formularios?",
+      options: ["Multi-step", "Campos largos", "Letra pequeña"],
+      answer: 0
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  const showQuestion = () => {
+    const q = questions[currentQuestion];
+    document.getElementById('question').innerHTML = `<h4>${q.question}</h4>`;
+    
+    const optionsHTML = q.options.map((option, i) => `
+      <button class="quiz-option" onclick="Quiz.checkAnswer(${i})">${option}</button>
+    `).join('');
+    
+    document.getElementById('options').innerHTML = optionsHTML;
+    document.getElementById('quiz-progress').style.width = 
+      `${(currentQuestion/questions.length)*100}%`;
+  };
+
+  const checkAnswer = (selected) => {
+    const buttons = document.querySelectorAll('#options button');
+    const q = questions[currentQuestion];
+    
+    buttons.forEach((btn, i) => {
+      btn.disabled = true;
+      btn.classList.remove('correct', 'incorrect');
+      if(i === q.answer) btn.classList.add('correct');
+      else if(i === selected) btn.classList.add('incorrect');
+    });
+
+    if(selected === q.answer) score++;
+    
+    setTimeout(() => {
+      updateScore();
+      currentQuestion++;
+      currentQuestion < questions.length ? showQuestion() : showResult();
+    }, 1500);
+  };
+
+  const updateScore = () => {
+    document.getElementById('score').textContent = `Puntuación: ${score}/${questions.length}`;
+  };
+
+  const showResult = () => {
+    document.getElementById('quiz-container').style.display = 'none';
+    const result = document.getElementById('result');
+    result.style.display = 'block';
+    
+    const percentage = (score/questions.length)*100;
+    result.innerHTML = `
+      <h3 id="result-title">${
+        percentage >= 80 ? '🎉 ¡Excelente!' : 
+        percentage >= 50 ? '👍 ¡Bien hecho!' : 
+        '💡 ¡Sigue practicando!'
+      }</h3>
+      <p>Obtuviste ${score} de ${questions.length} correctas</p>
+      <button class="btn-secondary" onclick="Quiz.resetQuiz()">Reintentar</button>
+    `;
+  };
+
+  const resetQuiz = () => {
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('quiz-container').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+    updateScore();
+    showQuestion();
+  };
+
+  return {
+    checkAnswer,
+    resetQuiz,
+    showQuestion
+  };
+})();
+
+// script.js (módulo Navigation)
+
+const Navigation = (() => {
+  let currentPage = 0;
+  const pages = document.querySelectorAll('.page');
+
+  const init = () => {
+    pages.forEach((page, index) => {
+      page.style.transform = `translateX(${index * 100}%)`;
+      page.style.zIndex = 999 - index;
+    });
+    pages[0].classList.add('active');
+  };
+
+  const navigate = (direction) => {
+    const newPage = direction === 'next' 
+      ? Math.min(currentPage + 1, pages.length - 1) 
+      : Math.max(currentPage - 1, 0);
+
+    if (newPage === currentPage) return;
+
+    pages.forEach((page, index) => {
+      const offset = (index - newPage) * 100; // Cálculo preciso
+      page.style.transform = `translateX(${offset}%)`;
+    });
+
+    pages[currentPage].classList.remove('active');
+    pages[newPage].classList.add('active');
+    currentPage = newPage;
+
+    // Disparar evento después de completar la transición
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('navigationEnd'));
+    }, 400); // Match con la duración CSS
+  };
+
+  return { init, navigate };
+})();
+
+// Sistema Principal
+document.addEventListener('DOMContentLoaded', () => {
+  Navigation.init();
+
+  document.getElementById('nav-left').addEventListener('click', () => Navigation.navigate('prev'));
+  document.getElementById('nav-right').addEventListener('click', () => Navigation.navigate('next'));
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowLeft') Navigation.navigate('prev');
+    if(e.key === 'ArrowRight') Navigation.navigate('next');
+  });
+
+  const form = document.getElementById('feedback-form');
+  form?.addEventListener('submit', (e) => {
+    if(!form.checkValidity()) {
+      e.preventDefault();
+      form.reportValidity();
+    }
+  });
+
+  const checkQuizPage = () => {
+    const quizPage = document.getElementById('art6');
+    if (quizPage && quizPage.classList.contains('active')) {
+      setTimeout(() => Quiz.showQuestion(), 50);
+    }
+  };
+
+  checkQuizPage();
+  document.addEventListener('navigationEnd', checkQuizPage);
+})
+
+if ('ontouchstart' in window) {
+  const navLeft = document.getElementById('nav-left');
+  const navRight = document.getElementById('nav-right');
+
+  navLeft.addEventListener('touchend', function(e) {
+    e.preventDefault(); // Evita comportamientos inesperados
+    Navigation.navigate('prev');
+  });
+
+  navRight.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    Navigation.navigate('next');
+  });
+}
+
+  </script>
+</body>
+</html>
