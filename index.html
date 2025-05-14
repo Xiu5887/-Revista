@@ -4,1203 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Revista Física Virtual: Unidad IV - Entradas y Salidas</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: #F5F5F5;
-  color: #333;
-  overflow-x: hidden;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
-  color: #1A3E5C;
-}
-
-a, button, figure {
-  transition: all .3s ease;
-}
-
-/* === Contenedores principales === */
-.page-container {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-.page {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  flex-shrink: 0;
-}
-
-/* === Portada === */
-.cover {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(rgba(26, 62, 92, 0.8), rgba(44, 95, 138, 0.8)), 
-              url('img/backgraund.png') center/cover;
-  color: #fff;
-  min-height: 100vh;
-  position: relative;
-}
-
-#cover-title {
-  font-size: 3.5rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  margin-bottom: 1rem;
-  color: #fff !important;
-  position: relative;
-  z-index: 1;
-}
-
-.cover::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.3);
-}
-
-/* === Navegación === */
-.nav-zone {
-  position: fixed;
-  top: 0;
-  width: 15%;
-  height: 100%;
-  z-index: 1000;
-  pointer-events: all;
-  transition: opacity 0.3s;
-  margin-bottom: 1rem;
-}
-
-#nav-left {
-  left: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
-}
-
-#nav-right {
-  right: 0;
-  background: linear-gradient(to left, rgba(0,0,0,0.2), transparent);
-}
-
-.nav-zone:hover {
-  opacity: 0.5;
-  cursor: pointer;
-}
-
-/* === Contenido artículos === */
-.article {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.08);
-  margin-bottom: 2rem;
-}
-
-.two-column {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.highlight-block {
-  background: #E8F5EF;
-  padding: 2rem;
-  border-left: 4px solid #6DAA8B;
-  margin: 2rem 0;
-}
-
-.card {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 6px;
-  box-shadow: 0 1px 6px rgba(0,0,0,.1);
-}
-
-/* === Componentes interactivos === */
-/* === Índice Mejorado === */
-.toc {
-  padding: 2rem;
-  background: linear-gradient(to right, #f8f9fa, #ffffff);
-  border-radius: 12px;
-  margin: 2rem auto;
-  max-width: 800px;
-  position: relative;
-  overflow: hidden;
-}
-
-.toc::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: #6DAA8B;
-}
-
-.toc ul {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 0;
-}
-
-.toc li {
-  position: relative;
-  padding-left: 2.5rem;
-  margin: 1rem 0;
-  transition: transform 0.3s;
-}
-
-.toc li::before {
-  content: counter(item-counter);
-  counter-increment: item-counter;
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  color: #2C5F8A;
-  font-weight: 700;
-}
-
-.toc a {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(26, 62, 92, 0.1);
-  text-decoration: none !important;
-  min-height: 80px;
-}
-
-.toc a::after {
-  content: '→';
-  margin-left: auto;
-  color: #6DAA8B;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.toc a:hover {
-  transform: translateX(10px);
-  box-shadow: 0 4px 12px rgba(26, 62, 92, 0.15);
-}
-
-.toc a:hover::after {
-  opacity: 1;
-}
-
-/* Espacio para imágenes futuras */
-.toc .img-placeholder {
-  width: 60px;
-  height: 60px;
-  background: #e8f5ef;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-
-/* Números decorativos */
-.toc {
-  counter-reset: item-counter;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .toc ul {
-    grid-template-columns: 1fr;
-  }
+  <link rel="stylesheet" href="styles.css">
   
-  .toc a {
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: auto;
-  }
-  
-  .toc .img-placeholder {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 1rem;
-  }
-}
-
-.key-points li {
-  margin: .8rem 0;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-/* === Contraportada === */
-.back-cover {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
-  padding: 2rem;
-  background: #fff;
-}
-
-.back-cover blockquote {
-  font-style: italic;
-  color: #1A3E5C;
-  font-size: 1.2rem;
-}
-
-/* === Formularios y botones === */
-.btn-primary, .btn-secondary {
-  padding: .8rem 1.2rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: filter 0.3s;
-}
-
-.btn-primary {
-  background: #2C5F8A;
-  color: #fff;
-}
-
-.btn-secondary {
-  background: #6DAA8B;
-  color: #fff;
-}
-
-.btn-primary:hover, .btn-secondary:hover {
-  filter: brightness(1.1);
-}
-
-form textarea {
-  width: 100%;
-  height: 6rem;
-  margin-top: .5rem;
-  padding: .5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .page {
-    overflow-y: auto;
-    position: relative;
-  }
-  
-  #cover-title {
-    font-size: 2.2rem;
-  }
-  
-  .two-column, .grid, .back-cover {
-    grid-template-columns: 1fr;
-  }
-  
-  .nav-zone {
-    width: 25%;
-  }
-}
-
-.challenge {
-  text-align: center;
-  margin: 2rem 0;
-}
-
-.cover-subtitles,
-#cover-qr {
-  display: none !important;
-}
-
-/* === Efectos de imagen flotante === */
-.floating-image {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-/* === Barra de progreso del quiz === */
-.progress-bar {
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 1rem 0;
-}
-
-.progress-fill {
-  height: 100%;
-  background: #6DAA8B;
-  transition: width 0.5s ease;
-}
-
-/* === Tarjetas interactivas === */
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
-}
-
-.card {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* === Ajustes finales de contraste === */
-.highlight-block {
-  border-left: 4px solid #2C5F8A;
-  background: #f8f9fa;
-}
-
-/* === Mejora en formularios === */
-input, textarea {
-  border: 2px solid #ddd !important;
-  transition: border-color 0.3s !important;
-}
-
-input:focus, textarea:focus {
-  border-color: #6DAA8B !important;
-  outline: none;
-}
-
-/* === Ajuste específico móvil === */
-@media (max-width: 480px) {
-  .article {
-    padding: 1rem;
-    margin: 1rem;
-  }
-  
-  .card {
-    padding: 1rem;
-  }
-  
-  .floating-image {
-    max-width: 80%;
-  }
-}
-
-/* === Efecto de carga suave === */
-.page {
-  opacity: 1;
-  transition: 
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s ease;
-}
-
-.page.inactive {
-  opacity: 0.5;
-}
-
-
-/* Ajustes generales de artículos */
-.article {
-  max-width: 1200px; /* Reducir el ancho máximo */
-  padding: 1.5rem;
-  margin: 1rem auto;
-}
-
-/* Contenedor de ejemplos de formularios */
-.examples.grid {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-/* Tarjetas de formularios */
-.card {
-  max-width: 400px; /* Tamaño máximo para PC */
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.card figure {
-  overflow: hidden;
-  border-radius: 6px;
-  margin: 0;
-}
-
-/* Imágenes dentro de las tarjetas */
-.card img {
-  width: 100%;
-  max-height: 250px;
-  object-fit: contain;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  transition: transform 0.3s ease;
-}
-
-.card:hover img {
-  transform: scale(1.02);
-}
-
-/* Ajustes específicos para el artículo de formularios */
-#art3 .two-column {
-  gap: 1.5rem;
-  align-items: start;
-}
-
-#art3 .content {
-  padding-right: 2rem;
-}
-
-/* Ajustes de texto */
-.key-points li {
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* Media query para mantener ajustes en PC */
-@media (min-width: 1024px) {
-  .page-container {
-    overflow: hidden;
-  }
-  
-  .article.two-column {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
-  
-  .quiz-game.card {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-}
-
-.scrollable-content {
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  padding: 0 20px;
-}
-
-.scrollable-content {
-  /* Oculta scrollbar en Firefox */
-  scrollbar-width: none;
-  
-  /* Oculta scrollbar en IE/Edge */
-  -ms-overflow-style: none;
-}
-
-/* Oculta scrollbar en WebKit (Chrome/Safari) */
-.scrollable-content::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
-/* Estilos específicos para art1 */
-.principle-header {
-  border-bottom: 2px solid #2C5F8A;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-}
-
-.deco-line {
-  height: 2px;
-  background: #6DAA8B;
-  width: 60px;
-  margin-top: 0.5rem;
-}
-
-.principle-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 6px;
-  margin: 0.5rem 0;
-}
-
-.principle-item .icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.flow-steps {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.step-bubble {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #2C5F8A;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  margin: 0 auto 0.5rem;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 2rem;
-  text-align: center;
-}
-
-.stat-item {
-  padding: 1rem;
-  background: #E8F5EF;
-  border-radius: 8px;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1A3E5C;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .flow-steps {
-    flex-direction: column;
-  }
-  
-  .principle-item {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-/* Estilos para explicaciones */
-.section-intro {
-  color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.point-header {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.point-explanation {
-  font-size: 0.95rem;
-  color: #444;
-  line-height: 1.5;
-  margin-left: 2.3rem;
-}
-
-.layer-content p {
-  font-size: 0.95rem;
-  color: #555;
-  margin-top: 0.5rem;
-}
-
-.code-caption {
-  text-align: center;
-  font-style: italic;
-  color: #666;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 768px) {
-  .point-explanation {
-    margin-left: 0;
-  }
-  
-  .point-header {
-    flex-direction: column;
-    align-items: start;
-  }
-}
-
-/* Estilos específicos para art2 */
-.step-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.step-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.step-icon {
-  font-size: 2rem;
-  background: #E8F5EF;
-  padding: 0.8rem;
-  border-radius: 8px;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tool-grid {
-  display: grid;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.tool-card {
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 6px;
-  border-left: 3px solid #2C5F8A;
-}
-
-.step-image {
-  width: 100%;
-  border-radius: 6px;
-  margin-top: 1rem;
-  border: 1px solid #eee;
-}
-
-.checklist {
-  list-style: none;
-  padding-left: 1.5rem;
-}
-
-.checklist li::before {
-  content: '✓';
-  color: #6DAA8B;
-  margin-right: 0.5rem;
-}
-
-.numbered-list {
-  counter-reset: step-counter;
-  padding-left: 1.5rem;
-}
-
-.numbered-list li {
-  counter-increment: step-counter;
-  margin: 0.8rem 0;
-}
-
-.numbered-list li::before {
-  content: counter(step-counter);
-  background: #2C5F8A;
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  margin-right: 0.8rem;
-}
-
-.highlight-card {
-  background: #1A3E5C !important;
-  color: white;
-}
-
-.highlight-card .btn-secondary {
-  background: #6DAA8B;
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  .step-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .step-icon {
-    margin: 0 auto;
-  }
-}
-
-
-/* Estilos específicos para art3 */
-.form-grid {
-  gap: 2rem;
-}
-
-.conversion-header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.conversion-rate {
-  text-align: center;
-  background: #1A3E5C;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  min-width: 180px;
-}
-
-.rate-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.rate-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-.conversion-factors {
-  column-count: 2;
-  gap: 1.5rem;
-}
-
-.principle-item {
-  display: flex;
-  gap: 1rem;
-  align-items: start;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  margin: 0.5rem 0;
-}
-
-.principle-icon {
-  width: 35px;
-  height: 35px;
-  background: #2C5F8A;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.before-after {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-top: 1.5rem;
-}
-
-.form-example img {
-  border: 2px solid #eee;
-  border-radius: 8px;
-  margin: 1rem 0;
-  transition: transform 0.3s;
-}
-
-.form-example img:hover {
-  transform: scale(1.02);
-}
-
-.error-list li {
-  color: #dc3545;
-  margin: 0.5rem 0;
-}
-
-.success-list li {
-  color: #28a745;
-  margin: 0.5rem 0;
-}
-
-.template-card {
-  padding: 2rem !important;
-}
-
-.template-content {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-
-.template-preview img {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.template-features li {
-  margin: 1rem 0;
-  padding: 0.8rem;
-  background: #f8f9fa;
-  border-radius: 6px;
-}
-
-.download-icon {
-  margin-right: 0.8rem;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-@media (max-width: 768px) {
-  .conversion-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .before-after {
-    grid-template-columns: 1fr;
-  }
-  
-  .template-content {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Estilos específicos para art4 */
-.media-comparison {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  margin: 2rem 0;
-}
-
-.print-metaphor, .digital-metaphor {
-  text-align: center;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 300px;
-}
-
-.print-metaphor {
-  background: white;
-  border: 2px solid #1A3E5C;
-}
-
-.digital-metaphor {
-  background: white;
-  border: 2px solid #1A3E5C;
-}
-
-.print-metaphor .icon, .digital-metaphor .icon {
-  font-size: 4rem;
-  display: block;
-  margin-bottom: 1rem;
-}
-
-.specs-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.spec-list li {
-  padding: 0.8rem;
-  margin: 0.5rem 0;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
-.conversion-chart img {
-  width: 100%;
-  border-radius: 8px;
-  margin: 1rem 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.exercise-steps {
-  display: grid;
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-.step {
-  display: flex;
-  gap: 1rem;
-  align-items: start;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.step-number {
-  width: 20px;
-  height: 20px;
-  background: #2C5F8A;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-weight: bold;
-}
-
-.tag-list {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
-.tag {
-  background: #6DAA8B;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.9rem;
-}
-
-.pro-tip pre {
-  background: #1A3E5C;
-  color: white;
-  padding: 1rem;
-  border-radius: 6px;
-}
-
-@media (max-width: 768px) {
-  .media-comparison {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .specs-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .step {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-/* Estilos específicos para art5 */
-.case-grid {
-  gap: 2rem;
-}
-
-.case-header {
-  text-align: center;
-  padding: 1.5rem;
-  border-bottom: 2px solid #eee;
-  margin-bottom: 1rem;
-}
-
-.company-logo {
-  height: 50px;
-  margin: 0 auto 1rem;
-  display: block;
-}
-
-.case-points li {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.point-icon {
-  font-size: 1.8rem;
-  flex-shrink: 0;
-}
-
-.lesson-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-.lesson-item {
-  text-align: center;
-  padding: 1.5rem;
-  background: #E8F5EF;
-  border-radius: 8px;
-}
-
-.lesson-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .case-points li {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .point-icon {
-    margin: 0 auto;
-  }
-}
-
-/* Estilos contraportada */
-.back-cover {
-  position: relative;
-  background: #f5f5f5;
-  padding: 2rem;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spine-effect {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 40px;
-  background: #1A3E5C;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  padding: 1rem;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spine-title {
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 2px;
-}
-
-.author-bio {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.author-photo {
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.social-links {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.social-icon {
-  font-size: 1.5rem;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-.social-icon:hover {
-  opacity: 1;
-}
-
-.tech-summary {
-  column-count: 2;
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.learned-list {
-  break-inside: avoid;
-  list-style: none;
-  padding-left: 1.5rem;
-}
-
-.learned-list li::before {
-  content: '▹';
-  color: #6DAA8B;
-  margin-right: 0.5rem;
-}
-
-.qr-section {
-  text-align: center;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.qr-section img {
-  width: 150px;
-  margin: 0 auto;
-}
-
-.feedback-module {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-@media (max-width: 768px) {
-  .author-bio {
-    grid-template-columns: 1fr;
-  }
-  
-  .tech-summary {
-    column-count: 1;
-  }
-}
-@media (hover: none) {
-  .nav-zone:hover {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .page {
-    position: absolute; /* Mantener absoluto para que el translateX funcione */
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    overflow-y: auto; /* Permite scroll en cada página si se requiere */
-  }
-  
-  #cover-title {
-    font-size: 2.2rem;
-  }
-  
-  .two-column, .grid, .back-cover {
-    grid-template-columns: 1fr;
-  }
-  
-  .nav-zone {
-    width: 25%;
-  }
-}
-
-
-
-  </style>
 </head>
 <body>
   <div class="page-container">
@@ -1226,595 +31,3222 @@ input:focus, textarea:focus {
     <ul>
       <li><a href="#art1">
         <div class="img-placeholder"></div>
-        <span>1. Fundamentos del Diseño de E/S</span>
+        <span>1. Entradas y Salidas: Los Canales Vitales de los Sistemas</span>
       </a></li>
       
       <li><a href="#art2">
         <div class="img-placeholder"></div>
-        <span>2. Prototipado Interactivo</span>
+        <span>2. Arquitectura Técnica de E/S: Más Allá del Código</span>
       </a></li>
 
       <li><a href="#art3">
         <div class="img-placeholder"></div>
-        <span>3. Formularios Web Optimizados</span>
+        <span>3. Selección de Periféricos: Ingeniería de Interfaces Ocultas</span>
       </a></li>
 
       <li><a href="#art4">
         <div class="img-placeholder"></div>
-        <span>4. Diseño Multiformato</span>
+        <span>4. Ingeniería de Captación: Precisión en la Fuente</span>
       </a></li>
 
       <li><a href="#art5">
         <div class="img-placeholder"></div>
-        <span>5. Casos de Éxito Real</span>
+        <span>5. Lecciones del Campo: Fallos Sistémicos y Soluciones Técnicas</span>
       </a></li>
 
       <li><a href="#art6">
         <div class="img-placeholder"></div>
-        <span>6. UX Gamificado</span>
+        <span>6. Fronteras Digitales: La Próxima Evolución de las E/S</span>
+      </a></li>
+      
+      <li><a href="#art7">
+        <div class="img-placeholder"></div>
+        <span>7. Sistemas Sensibles: La Nueva Era de las Interfaces Contextuales</span>
+      </a></li>
+      
+      <li><a href="#art8">
+        <div class="img-placeholder"></div>
+        <span>8. Lecciones de Campo: Fallos Sistémicos y Soluciones Técnicas</span>
+      </a></li>
+      
+      <li><a href="#art9">
+        <div class="img-placeholder"></div>
+        <span>9. Fortificación Digital: Estrategias Técnicas de Defensa</span>
+      </a></li>
+      
+      <li><a href="#art10">
+        <div class="img-placeholder"></div>
+        <span>10. Arquitectura API-Céntrica: El Sistema Circulatorio Digital</span>
+      </a></li>
+      
+      <li><a href="#art11">
+        <div class="img-placeholder"></div>
+        <span>11. Sensórica Embebida: Los Sentidos de la IoT</span>
+      </a></li>
+      
+      <li><a href="#art12">
+        <div class="img-placeholder"></div>
+        <span>12. Automatización de Pruebas E/S: Calidad Técnica Repetible</span>
+      </a></li>
+      
+      <li><a href="#art13">
+        <div class="img-placeholder"></div>
+        <span>13. Rendimiento y Resiliencia: Optimización de E/S y Gestión de Errores
+        </span>
+      </a></li>
+      
+      <li><a href="#art14">
+        <div class="img-placeholder"></div>
+        <span>14. Ingeniería de Conversaciones: Flujos Dialógicos Efectivos
+        </span>
+      </a></li>
+      
+      <li><a href="#art15">
+        <div class="img-placeholder"></div>
+        <span>15. Entretenimiento UX: Gamificación y Microjuegos
+        </span>
+      </a></li>
+      
+      <li><a href="#art16">
+        <div class="img-placeholder"></div>
+        <span>16. Validación en Diálogos: Evitar Errores en Tiempo Real ⚡
+        </span>
+      </a></li>
+      
+      <li><a href="#art17">
+        <div class="img-placeholder"></div>
+        <span>17. Diálogos Multimodales: Combinando Voz, Texto y Gestos
+        </span>
       </a></li>
     </ul>
   </nav>
 </section>
 
     <!-- Artículos -->
- <section class="page" id="art1">
+ <!-- Artículo 1 -->
+<section class="page" id="art1">
     <article class="article">
-        <h2 class="article-title">Diseño E/S: La interfaz crítica en sistemas</h2>
-        
-        <!-- Introducción -->
-        <div class="lead-section">
-            <p class="lead-text">En la era de los sistemas transaccionales, el diseño de Entradas/Salidas se ha convertido en el <em>punto neuralgico</em> de la eficiencia operativa. Este artículo desglosa principios técnicos y patrones de implementación validados por estudios recientes de UX Engineering.</p>
+      <h2 class="article-title">Entradas y Salidas: Los Canales Vitales de los Sistemas</h2>
+      
+      <!-- Introducción -->
+      <div class="highlight-block intro-block">
+        <p class="lead-text">Las E/S son el sistema nervioso de cualquier aplicación. Dominar su diseño técnico marca la diferencia entre sistemas robustos y experiencias frustrantes.</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">78%</div>
+            <div class="stat-label">Errores en sistemas provienen de E/S mal diseñadas</div>
+          </div>
         </div>
-
-        <div class="scrollable-content">
-            <div class="grid technical-grid">
-                <!-- Columna Izquierda -->
-                <div class="card principle-card">
-                    <div class="principle-header">
-                        <h3>📥 Principios de Entrada</h3>
-                        <div class="deco-line"></div>
-                    </div>
-                    <ul class="key-points">
-                        <li class="principle-item">
-                            <span class="icon">⏱️</span>
-                            <div>
-                                <h4>Ley de Hick-Hyman</h4>
-                                <p>≤7 opciones por campo · 100ms/opción</p>
-                            </div>
-                        </li>
-                        <li class="principle-item">
-                            <span class="icon">🔍</span>
-                            <div>
-                                <h4>Validación Contextual</h4>
-                                <p>Expresiones regulares en tiempo real</p>
-                            </div>
-                        </li>
-                        <li class="principle-item">
-                            <span class="icon">🗃️</span>
-                            <div>
-                                <h4>Mapeo 1:1</h4>
-                                <p>Relación directa campo-DB</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Tarjeta Full Width Centrada -->
-                <div class="card stats-card" style="grid-column: 1 / -1; grid-row: 2;">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value">42%</div>
-                            <div class="stat-label">Reducción de errores</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">55%</div>
-                            <div class="stat-label">Optimización recursos</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">3.1x</div>
-                            <div class="stat-label">Velocidad proceso</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha -->
-                <div class="card principle-card">
-                    <div class="principle-header">
-                        <h3>⚙️ Pipeline de Datos</h3>
-                        <div class="deco-line"></div>
-                    </div>
-                    <div class="flow-steps">
-                        <div class="flow-step">
-                            <div class="step-bubble">1</div>
-                            <p>Sanitización<br><em>UTF-8 Strict</em></p>
-                        </div>
-                        <div class="flow-step">
-                            <div class="step-bubble">2</div>
-                            <p>Validación<br><em>Regex + Lógica</em></p>
-                        </div>
-                        <div class="flow-step">
-                            <div class="step-bubble">3</div>
-                            <p>Persistencia<br><em>Transacciones ACID</em></p>
-                        </div>
-                    </div>
-                    <div class="code-sample">
-                        <pre>// Flujo básico
-input → sanitize() 
-       → validate() 
-       → save()</pre>
-                    </div>
-                </div>
+      </div>
+  
+      <div class="scrollable-content">
+        <div class="grid technical-grid">
+          <!-- Definiciones Clave -->
+          <div class="card principle-card">
+            <div class="principle-header">
+              <h3>📌 Componentes Esenciales</h3>
+              <div class="deco-line"></div>
             </div>
+            <table class="data-table">
+              <tr>
+                <th>Tipo</th>
+                <th>Definición</th>
+                <th>Ejemplos</th>
+              </tr>
+              <tr>
+                <td>Entrada</td>
+                <td>Datos recibidos por el sistema</td>
+                <td>Teclado, API REST, sensores IoT</td>
+              </tr>
+              <tr>
+                <td>Salida</td>
+                <td>Resultados generados</td>
+                <td>Pantallas, impresoras, bases de datos</td>
+              </tr>
+            </table>
+            <img src="img/io-flow.png" alt="Flujo E/S" class="step-image">
+          </div>
+  
+          <!-- Funcionamiento Técnico -->
+          <div class="card principle-card">
+            <div class="principle-header">
+              <h3>⚙️ Proceso de Transformación</h3>
+              <div class="deco-line"></div>
+            </div>
+            <div class="flow-steps">
+              <div class="flow-step">
+                <div class="step-bubble">1</div>
+                <p>Captura<br><em>Periférico → Sistema</em></p>
+              </div>
+              <div class="flow-step">
+                <div class="step-bubble">2</div>
+                <p>Procesamiento<br><em>Validación + Lógica</em></p>
+              </div>
+              <div class="flow-step">
+                <div class="step-bubble">3</div>
+                <p>Salida<br><em>Sistema → Destino</em></p>
+              </div>
+            </div>
+            <div class="tip-box">
+              <h4>💡 Datos Clave:</h4>
+              <p>El 62% del tiempo de procesamiento se gasta en operaciones de E/S</p>
+            </div>
+          </div>
+  
+          <!-- Ejemplo Técnico -->
+          <div class="card principle-card">
+            <div class="principle-header">
+              <h3>🔧 Código de Ejemplo</h3>
+              <div class="deco-line"></div>
+            </div>
+            <pre class="code-sample">
+  # Sistema de monitorización industrial
+  temperatura = leer_sensor("termopar")
+  presion = leer_sensor("presion")
+  
+  if temperatura > 100 or presion > 2.5:
+      activar_alarma()
+      escribir_log(f"CRÍTICO: {temperatura}°C, {presion}bar")
+      
+  # Salida adaptativa
+  generar_reporte(formatos=["PDF", "JSON"])</pre>
+            <div class="code-explanation">
+              <p>Flujo completo con validación y múltiples salidas</p>
+            </div>
+          </div>
+  
+          <!-- Impacto Sistémico -->
+          <div class="card stats-card" style="grid-column: 1 / -1;">
+            <div class="principle-header">
+              <h3>📈 Impacto en Rendimiento</h3>
+              <div class="deco-line"></div>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value">3.2x</div>
+                <div class="stat-label">Mejora con buffering</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">-68%</div>
+                <div class="stat-label">Errores con validación</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">42ms</div>
+                <div class="stat-label">Latencia óptima E/S</div>
+              </div>
+            </div>
+            <img src="img/performance-chart.png" alt="Gráfico rendimiento" class="step-image">
+          </div>
+  
+          <!-- Buenas Prácticas -->
+          <div class="card highlight-card">
+            <div class="tip-content">
+              <div class="tip-icon">🚨</div>
+              <div>
+                <h3>Errores Comunes en E/S</h3>
+                <ul class="error-list">
+                  <li>• Validación única (solo frontend)</li>
+                  <li>• Mapeo incorrecto periférico-dato</li>
+                  <li>• Logs no estructurados</li>
+                </ul>
+                <button class="btn-secondary">Descargar Checklist</button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </article>
-</section>
+  </section>
 
+<!-- Artículo 2 -->
 <section class="page" id="art2">
     <article class="article">
-        <h2 class="article-title">Prototipado Interactivo: Del Wireframe a la Realidad</h2>
-        
-        <div class="scrollable-content">
-            <!-- Introducción -->
-            <div class="highlight-block intro-block">
-                <p>El prototipado moderno combina diseño y funcionalidad. Según un estudio de NNGroup (2023), los prototipos interactivos:</p>
-                <ul class="impact-metrics">
-                    <li>📈 Aumentan 40% la detección temprana de errores</li>
-                    <li>🕒 Reducen 65% el tiempo de desarrollo</li>
-                    <li>🤝 Mejoran 80% la comunicación equipo-cliente</li>
-                </ul>
+      <h2 class="article-title">Arquitectura Técnica de E/S: Más Allá del Código</h2>
+  
+      <div class="scrollable-content">
+        <!-- Principios de diseño -->
+        <div class="highlight-block">
+          <h3>Principios Fundamentales</h3>
+          <div class="grid technical-grid">
+            <div class="card">
+              <h4>Validación en Capas</h4>
+              <p>Sistema de defensa múltiple que opera en tres niveles:</p>
+              <ol class="numbered-list">
+                <li><strong>Capa de Presentación:</strong> Verificación básica de formatos y rangos</li>
+                <li><strong>Capa de Negocio:</strong> Validación semántica y lógica de datos</li>
+                <li><strong>Capa de Persistencia:</strong> Garantía de integridad referencial</li>
+              </ol>
             </div>
-
-            <!-- Contenido principal -->
-            <div class="grid technical-grid">
-                <!-- Paso 1 -->
-                <div class="card step-card">
-                    <div class="step-header">
-                        <div class="step-icon">🎨</div>
-                        <h3>1. Sketching Digital</h3>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">Transforma ideas en estructuras básicas con herramientas low-code:</p>
-                        <div class="tool-grid">
-                            <div class="tool-card">
-                                <h4>Figma Jam</h4>
-                                <ul>
-                                    <li>Wireframes colaborativos</li>
-                                    <li>Biblioteca de componentes</li>
-                                </ul>
-                            </div>
-                            <div class="tool-card">
-                                <h4>Balsamiq</h4>
-                                <ul>
-                                    <li>Sketching rápido</li>
-                                    <li>Exportación a HTML</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <img src="img/06-online-shop-wireframe-example.png" alt="Ejemplo wireframe" class="step-image">
-                    </div>
-                </div>
-
-                <!-- Paso 2 -->
-                <div class="card step-card">
-                    <div class="step-header">
-                        <div class="step-icon">🔗</div>
-                        <h3>2. Flujo Interactivo</h3>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">Conecta pantallas creando lógica de navegación:</p>
-                        <div class="code-sample">
-                            <pre>// Ejemplo hotspot
-button.addEventListener('click', () => {
-    navigateToScreen('checkout');
-});</pre>
-                        </div>
-                        <div class="best-practices">
-                            <h4>Buenas Prácticas:</h4>
-                            <ul class="checklist">
-                                <li>Transiciones de 300ms</li>
-                                <li>Feedback táctil en móviles</li>
-                                <li>Estados hover/focus</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Paso 3 -->
-                <div class="card step-card">
-                    <div class="step-header">
-                        <div class="step-icon">🧪</div>
-                        <h3>3. Testing Contextual</h3>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">Valida con usuarios reales usando técnicas ágiles:</p>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value">5s</div>
-                                <div class="stat-label">Tiempo atención inicial</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">3</div>
-                                <div class="stat-label">Iteraciones promedio</div>
-                            </div>
-                        </div>
-                        <div class="testing-tips">
-                            <h4>Checklist de Validación:</h4>
-                            <ol class="numbered-list">
-                                <li>Flujo intuitivo en < 3 clicks</li>
-                                <li>Contraste AA mínimo</li>
-                                <li>Load time < 2s</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Consejo destacado -->
-                <div class="card highlight-card" style="grid-column: 1 / -1;">
-                    <div class="tip-content">
-                        <div class="tip-icon">💡</div>
-                        <div>
-                            <h3>Prototipo Efectivo en 1 Día</h3>
-                            <p>Usa nuestra plantilla descargable con:</p>
-                            <ul class="feature-list">
-                                <li>10 componentes base</li>
-                                <li>3 flujos predefinidos</li>
-                                <li>Guía de estilo incluida</li>
-                            </ul>
-                            <button class="btn-secondary">Descargar Kit</button>
-                        </div>
-                    </div>
-                </div>
+  
+            <div class="card">
+              <h4>Patrones de Mapeo</h4>
+              <table class="data-table">
+                <tr>
+                  <th>Tipo de Dato</th>
+                  <th>Solución Técnica</th>
+                </tr>
+                <tr>
+                  <td>Sensores analógicos</td>
+                  <td>Conversión digital mediante ADC de alta precisión</td>
+                </tr>
+                <tr>
+                  <td>Datos binarios</td>
+                  <td>Manejo mediante interrupciones controladas por GPIO</td>
+                </tr>
+              </table>
             </div>
+          </div>
         </div>
+  
+        <!-- Flujo técnico -->
+        <div class="card">
+          <h3>Pipeline de Procesamiento</h3>
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="step-bubble">1</div>
+              <p><strong>Bufferización:</strong> Almacenamiento temporal en memoria para manejar picos de datos</p>
+            </div>
+            <div class="flow-step">
+              <div class="step-bubble">2</div>
+              <p><strong>Sanitización:</strong> Eliminación de caracteres peligrosos y normalización</p>
+            </div>
+            <div class="flow-step">
+              <div class="step-bubble">3</div>
+              <p><strong>Transformación:</strong> Conversión a formatos estandarizados (IEEE 754 para floats)</p>
+            </div>
+          </div>
+          
+          <div class="tip-box">
+            <h4>Mejor Práctica:</h4>
+            <p>Implementar colas de mensajería (RabbitMQ/Kafka) para desacoplar procesos y garantizar tolerancia a fallos</p>
+          </div>
+        </div>
+  
+        <!-- Caso API REST -->
+        <div class="grid technical-grid">
+          <div class="card">
+            <h4>Flujo de Datos en APIs REST</h4>
+            <p>Proceso completo desde la recepción hasta el almacenamiento:</p>
+            <ol class="numbered-list">
+              <li>Recepción de payload JSON con metadatos</li>
+              <li>Validación de schema y firma digital</li>
+              <li>Cálculo de valores agregados (promedios/máximos)</li>
+              <li>Encolado para escritura asíncrona en BD</li>
+            </ol>
+          </div>
+  
+          <div class="card">
+            <h4>Estrategias de Persistencia</h4>
+            <ul class="checklist">
+              <li>Escritura por lotes (batch processing)</li>
+              <li>Uso de transacciones ACID</li>
+              <li>Replicación en tiempo real</li>
+              <li>Backups incrementales</li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Optimización -->
+        <div class="card stats-card">
+          <h3>Técnicas de Optimización</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value">4.8x</div>
+              <div class="stat-label">Throughput con buffering</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">0.02ms</div>
+              <div class="stat-label">Latencia en acceso directo</div>
+            </div>
+          </div>
+          
+          <p><strong>Técnica Avanzada:</strong> Implementación de DMA (Acceso Directo a Memoria) para transferencias hardware sin CPU</p>
+        </div>
+  
+        <!-- Seguridad -->
+        <div class="highlight-block">
+          <h3>Hardening de Seguridad</h3>
+          <div class="grid technical-grid">
+            <div class="card">
+              <h4>Prevención de Inyecciones</h4>
+              <ul class="checklist">
+                <li>Uso de consultas parametrizadas</li>
+                <li>Escape de caracteres especiales</li>
+                <li>Validación estricta de tipos</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <h4>Protección Contra XSS</h4>
+              <ul class="checklist">
+                <li>Sanitización HTML contextual</li>
+                <li>Políticas CSP estrictas</li>
+                <li>Encoding automático de salidas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </article>
-</section>
+  </section>
 
-   <section class="page" id="art3">
+<!-- Artículo 3: Selección de Periféricos -->
+<section class="page" id="art3">
     <article class="article">
-        <h2 class="article-title">Formularios que Convierten: Ciencia y Estética</h2>
-        
-        <div class="scrollable-content">
-            <!-- Introducción con estadística -->
-            <div class="highlight-block intro-block">
-                <div class="conversion-header">
-                    <div class="conversion-rate">
-                        <div class="rate-number">47%</div>
-                        <div class="rate-label">Aumento en conversiones</div>
-                    </div>
-                    <p>Según el estudio de Baymard Institute (2023), los formularios optimizados pueden reducir el abandono hasta en un 62% mediante:</p>
-                </div>
-                <ul class="conversion-factors">
-                    <li>✅ Reducción de campos innecesarios</li>
-                    <li>✅ Validación predictiva</li>
-                    <li>✅ Diseño mobile-first</li>
-                </ul>
-            </div>
-
-            <!-- Contenido principal -->
-            <div class="grid form-grid">
-                <!-- Principios clave -->
-                <div class="card principle-card">
-                    <div class="principle-header">
-                        <h3>📋 Anatomía del Formulario Perfecto</h3>
-                        <div class="deco-line"></div>
-                    </div>
-                    <div class="principle-list">
-                        <div class="principle-item">
-                            <div class="principle-icon">1</div>
-                            <div>
-                                <h4>Agrupación Inteligente</h4>
-                                <p>Campos relacionados en grupos de 3-5 máximo</p>
-                            </div>
-                        </div>
-                        <div class="principle-item">
-                            <div class="principle-icon">2</div>
-                            <div>
-                                <h4>Progresión Visual</h4>
-                                <p>Indicador de progreso en formularios largos</p>
-                            </div>
-                        </div>
-                        <div class="principle-item">
-                            <div class="principle-icon">3</div>
-                            <div>
-                                <h4>Ayuda Contextual</h4>
-                                <p>Tooltips activados por hover/focus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ejemplo Bueno/Malo -->
-                <div class="card comparison-card">
-                    <div class="comparison-header">
-                        <h3>🔄 Transformación UX</h3>
-                        <div class="deco-line"></div>
-                    </div>
-                    <div class="before-after">
-                        <div class="form-example bad-example">
-                            <h4>Antes: Problemas Comunes</h4>
-                            <img src="img/formu generico.webp" alt="Formulario mal diseñado">
-                            <ul class="error-list">
-                                <li>❌ 12 campos visibles</li>
-                                <li>❌ Sin agrupación lógica</li>
-                                <li>❌ Feedback ambiguo</li>
-                            </ul>
-                        </div>
-                        <div class="form-example good-example">
-                            <h4>Después: Solución Optimizada</h4>
-                            <img src="img/espotidfi.png" alt="Formulario mejorado">
-                            <ul class="success-list">
-                                <li>✅ 5 campos por paso</li>
-                                <li>✅ Agrupación por categorías</li>
-                                <li>✅ Validación en tiempo real</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <h2 class="article-title">Selección de Periféricos: Ingeniería de Interfaces Ocultas</h2>
+  
+      <div class="scrollable-content">
+        <!-- Matriz de decisión -->
+        <div class="highlight-block">
+          <h3>Matriz Técnica de Selección</h3>
+          <table class="data-table">
+            <tr>
+              <th>Parámetro</th>
+              <th>Teclado</th>
+              <th>Táctil</th>
+              <th>Voz</th>
+            </tr>
+            <tr>
+              <td>Precisión</td>
+              <td>99.8%</td>
+              <td>95.2%</td>
+              <td>88.5%</td>
+            </tr>
+            <tr>
+              <td>Velocidad (CPM)</td>
+              <td>250-300</td>
+              <td>180-220</td>
+              <td>150-180</td>
+            </tr>
+            <tr>
+              <td>Contexto Ideal</td>
+              <td>Datos estructurados</td>
+              <td>Selecciones discretas</td>
+              <td>Hands-free</td>
+            </tr>
+          </table>
         </div>
+  
+        <!-- Factores técnicos -->
+        <div class="grid technical-grid">
+          <div class="card">
+            <h4>Criterios de Implementación</h4>
+            <ul class="checklist">
+              <li>Tasa de muestreo del dispositivo</li>
+              <li>Protocolo de comunicación (USB/Bluetooth)</li>
+              <li>Consumo energético</li>
+              <li>Latencias máximas tolerables</li>
+            </ul>
+          </div>
+  
+          <div class="card stats-card">
+            <h4>Rendimiento Comparativo</h4>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value">12ms</div>
+                <div class="stat-label">Respuesta táctil</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">8ms</div>
+                <div class="stat-label">Debounce teclado</div>
+              </div>
+            </div>
+            <p class="technical-note">Tiempos promedio en dispositivos industriales Clase II</p>
+          </div>
+        </div>
+  
+        <!-- Casos de uso especializados -->
+        <div class="card">
+          <h3>Escenarios de Implementación</h3>
+          <div class="case-grid">
+            <div class="case-item">
+              <div class="case-icon">🏥</div>
+              <div>
+                <h4>Entorno Médico</h4>
+                <p>Uso de pedales USB para navegación hands-free en quirófanos</p>
+              </div>
+            </div>
+            
+            <div class="case-item">
+              <div class="case-icon">🏭</div>
+              <div>
+                <h4>Manufactura</h4>
+                <p>Sensores de presión capacitivos para control de maquinaria</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Consideraciones de seguridad -->
+        <div class="highlight-block">
+          <h3>Protección de Periféricos</h3>
+          <div class="grid technical-grid">
+            <div class="card">
+              <h4>Amenazas Físicas</h4>
+              <ul class="checklist">
+                <li>Protección IP contra líquidos</li>
+                <li>Rango térmico operativo</li>
+                <li>Resistencia a interferencias EM</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <h4>Seguridad Lógica</h4>
+              <ul class="checklist">
+                <li>Firmware actualizado</li>
+                <li>Encriptación punto a punto</li>
+                <li>Validación de dispositivos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Tendencias tecnológicas -->
+        <div class="card">
+          <h3>Evolución de Interfaces</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-year">2024</div>
+              <p>Sensores hápticos de alta definición (HD Haptics)</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2026*</div>
+              <p>Interfaces neuronales no invasivas</p>
+            </div>
+          </div>
+          <div class="footnote">* Proyecciones IEEE Interface Group</div>
+        </div>
+      </div>
     </article>
-</section>
+  </section>
 
-    <!-- Artículo 4: Salidas -->
+<!-- Artículo 4: Reglas de Oro en Captación de Datos -->
 <section class="page" id="art4">
     <article class="article">
-        <h2 class="article-title">Diseño Multiformato: Del Papel al Pixel</h2>
-        
-        <div class="scrollable-content">
-            <!-- Introducción con metáfora visual -->
-            <div class="highlight-block intro-block">
-                <div class="media-comparison">
-                    <div class="print-metaphor">
-                        <span class="icon">📄</span>
-                        <h3>Estático · Permanente · Tangible</h3>
-                    </div>
-                    <div class="digital-metaphor">
-                        <span class="icon">🖥️</span>
-                        <h3>Dinámico · Actualizable · Interactivo</h3>
-                    </div>
-                </div>
-                <p class="lead-text">Según el estudio de Smashing Magazine (2023), el diseño multiformato efectivo requiere:</p>
-                <ul class="crossmedia-list">
-                    <li>📐 Sistemas de cuadrícula flexibles</li>
-                    <li>🎨 Paletas de color adaptables</li>
-                    <li>🔠 Jerarquía tipográfica consistente</li>
-                </ul>
+      <h2 class="article-title">Ingeniería de Captación: Precisión en la Fuente</h2>
+  
+      <div class="scrollable-content">
+        <!-- Infografía de principios -->
+        <div class="principes-infographic">
+          <div class="infographic-item gold-rule">
+            <div class="rule-icon">🥇</div>
+            <h3>Regla Dorada #1</h3>
+            <p>Mapeo Periférico-Dato</p>
+            <div class="rule-details">
+              <p>Relación óptima entre dispositivo y tipo de dato</p>
             </div>
+          </div>
+          
+          <div class="comparative-chart">
+            <div class="chart-header">
+              <div class="chart-column input-type">Tipo de Entrada</div>
+              <div class="chart-column best-practice">Solución Ideal</div>
+              <div class="chart-column efficiency">Eficiencia</div>
+            </div>
+            
+            <div class="chart-row">
+              <div class="chart-column input-type">
+                <span class="input-icon">🔢</span>
+                Datos Numéricos
+              </div>
+              <div class="chart-column best-practice">
+                Teclado Numérico + Validación de Rango
+              </div>
+              <div class="chart-column efficiency">
+                <div class="efficiency-bar" style="width: 95%">95%</div>
+              </div>
+            </div>
+  
+            <div class="chart-row">
+              <div class="chart-column input-type">
+                <span class="input-icon">🗣️</span>
+                Comandos de Voz
+              </div>
+              <div class="chart-column best-practice">
+                ASR con Modelo Acústico Adaptativo
+              </div>
+              <div class="chart-column efficiency">
+                <div class="efficiency-bar" style="width: 82%">82%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Técnicas avanzadas -->
+        <div class="grid technical-grid">
+          <div class="card validation-strategy">
+            <h4 class="strategy-title">Validación Predictiva</h4>
+            <div class="strategy-steps">
+              <div class="step">
+                <div class="step-number">1</div>
+                <p>Detección de patrones mediante ML</p>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <p>Corrección contextual en tiempo real</p>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <p>Retroalimentación adaptativa</p>
+              </div>
+            </div>
+            <div class="stats-badge">
+              <span class="stat-value">-68%</span>
+              <span class="stat-label">Errores</span>
+            </div>
+          </div>
+  
+          <div class="card security-card">
+            <h4 class="security-title">🔒 Hardening de Entradas</h4>
+            <ul class="protection-list">
+              <li class="protection-item sanitization">
+                Sanitización Multinivel
+              </li>
+              <li class="protection-item encryption">
+                Encriptación E2E
+              </li>
+              <li class="protection-item validation">
+                Validación de Firmware
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Caso de Éxito -->
+        <div class="success-case">
+          <div class="case-header">
+            <h3>🏆 Implementación Industrial</h3>
+            <div class="case-subtitle">Sistema SCADA Modificado</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="stat-value">250ms → 18ms</div>
+              <div class="stat-label">Latencia reducida</div>
+            </div>
+            <div class="case-stat">
+              <div class="stat-value">99.991%</div>
+              <div class="stat-label">Precisión</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos adicionales */
+  .comparative-chart {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(26, 62, 92, 0.1);
+    margin: 2rem 0;
+    overflow: hidden;
+  }
+  
+  .chart-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    background: #1A3E5C;
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+  }
+  
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+  }
+  
+  .chart-row:hover {
+    background: #F8F9FA;
+  }
+  
+  .input-icon {
+    font-size: 1.4rem;
+    margin-right: 0.5rem;
+  }
+  
+  .efficiency-bar {
+    background: #6DAA8B;
+    height: 24px;
+    border-radius: 4px;
+    color: white;
+    padding-right: 8px;
+    text-align: right;
+    font-weight: 500;
+    transition: width 0.5s ease;
+  }
+  
+  .gold-rule {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #FFF5E6 0%, #FFEECC 100%);
+    border-radius: 12px;
+    margin: 2rem 0;
+    border: 2px solid #FFD700;
+  }
+  
+  .rule-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .strategy-steps {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .strategy-steps .step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: #E8F5EF;
+    border-radius: 8px;
+  }
+  
+  .step-number {
+    width: 32px;
+    height: 32px;
+    background: #2C5F8A;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .stats-badge {
+    background: #1e8179;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .protection-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .protection-item {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  
+  .protection-item.sanitization {
+    background: #E8F5EF;
+    border-left: 4px solid #6DAA8B;
+  }
+  
+  .protection-item.encryption {
+    background: #E6F0FF;
+    border-left: 4px solid #2C5F8A;
+  }
+  
+  .success-case {
+    background: linear-gradient(135deg, white 0%, #2C5F8A 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+  
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .chart-header,
+    .chart-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .chart-column {
+      padding: 0.8rem;
+    }
+    
+    .efficiency-bar {
+      width: 100% !important;
+    }
+  }
+  </style>
 
-            <!-- Contenido principal -->
-            <div class="grid format-grid">
-                <!-- Comparativa técnica -->
-                <div class="card comparison-card">
-                    <div class="comparison-header">
-                        <h3>⚖️ Análisis Técnico: Impreso vs Digital</h3>
-                        <div class="deco-line"></div>
-                    </div>
-                    <div class="specs-grid">
-                        <div class="spec-item print-spec">
-                            <h4>🖨️ Impresión Offset</h4>
-                            <ul class="spec-list">
-                                <li>Resolución: 300-1200 dpi</li>
-                                <li>Espaciado: Mín. 3 mm sangrado</li>
-                                <li>Color: CMYK + Pantones</li>
-                            </ul>
-                        </div>
-                        <div class="spec-item digital-spec">
-                            <h4>🌐 Web Responsive</h4>
-                            <ul class="spec-list">
-                                <li>Resolución: 72-144 ppi</li>
-                                <li>Espaciado: Unidades relativas (rem/em)</li>
-                                <li>Color: RGB + #HEX</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="conversion-chart">
-                        <h4>📈 Tasa de Conversión Multiformato</h4>
-                        <img src="img/conversion.jpg" alt="Gráfico de conversión">
-                        <p class="chart-caption">Impacto del diseño unificado en engagement (Fuente: Adobe 2023)</p>
-                    </div>
+<!-- Artículo 5: Casos Reales -->
+<section class="page" id="art5">
+    <article class="article">
+      <h2 class="article-title">Lecciones del Campo: Fallos Sistémicos y Soluciones Técnicas</h2>
+  
+      <div class="scrollable-content">
+        <!-- Timeline de casos -->
+        <div class="case-timeline">
+          <div class="timeline-item critical">
+            <div class="timeline-marker">⚠️</div>
+            <div class="timeline-content">
+              <h3>2018 - Error en Sistema Médico</h3>
+              <div class="case-details">
+                <div class="failure-detail">
+                  <h4>Fallo</h4>
+                  <p>Confusión unidades: mg/mL vs mL/mL en bombas de insulina</p>
+                  <div class="impact-badge">🥼 234 incidentes</div>
                 </div>
+                <div class="solution-detail">
+                  <h4>Solución Técnica</h4>
+                  <ul class="checklist">
+                    <li>Validación dimensional en entrada</li>
+                    <li>Conversión automática a estándar ISO</li>
+                    <li>Doble verificación por RFID</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="timeline-item resolved">
+            <div class="timeline-marker">✅</div>
+            <div class="timeline-content">
+              <h3>2021 - Crisis en Plataforma Trading</h3>
+              <div class="case-stats">
+                <div class="stat-item negative">
+                  <div class="stat-value">-100</div>
+                  <div class="stat-label">Acciones vendidas</div>
+                </div>
+                <div class="stat-item positive">
+                  <div class="stat-value">24h</div>
+                  <div class="stat-label">Tiempo respuesta</div>
+                </div>
+              </div>
+              <div class="technical-breakdown">
+                <h4>Root Cause Analysis</h4>
+                <div class="cause-grid">
+                  <div class="cause-item">
+                    <div class="cause-icon">🔢</div>
+                    <p>Validación de rango ausente</p>
+                  </div>
+                  <div class="cause-item">
+                    <div class="cause-icon">⏱️</div>
+                    <p>Race condition en procesamiento</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Módulo de lecciones -->
+        <div class="lessons-module">
+          <div class="lesson-card architecture">
+            <h3>🧠 Patrones Arquitectónicos</h3>
+            <div class="pattern-grid">
+              <div class="pattern-item">
+                <div class="pattern-icon">🛡️</div>
+                <h4>Circuit Breaker</h4>
+                <p>Aislamiento de fallos en subsistemas</p>
+              </div>
+              <div class="pattern-item">
+                <div class="pattern-icon">🔁</div>
+                <h4>Idempotencia</h4>
+                <p>Procesamiento seguro de reintentos</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="lesson-card metrics">
+            <h3>📊 Métricas Clave de Monitoreo</h3>
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <div class="metric-value">99.95%</div>
+                <div class="metric-label">Tasa validación</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">≤15ms</div>
+                <div class="metric-label">Latencia E/S</div>
+              </div>
+            </div>
+            <div class="alert-thresholds">
+              <h4>Umbrales Críticos</h4>
+              <div class="threshold-bar error">
+                <div class="threshold-label">>5% errores</div>
+                <div class="threshold-fill" style="width: 30%"></div>
+              </div>
+              <div class="threshold-bar warning">
+                <div class="threshold-label">>1s latencia</div>
+                <div class="threshold-fill" style="width: 45%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Kit de Supervivencia -->
+        <div class="survival-kit">
+          <h3>🛠️ Kit de Respuesta a Fallos</h3>
+          <div class="kit-grid">
+            <div class="tool-card">
+              <div class="tool-icon">🔍</div>
+              <h4>Diagnóstico Rápido</h4>
+              <ul>
+                <li>Logs estructurados</li>
+                <li>Tracing distribuido</li>
+              </ul>
+            </div>
+            <div class="tool-card">
+              <div class="tool-icon">⚡</div>
+              <h4>Contención</h4>
+              <ul>
+                <li>Rollback automático</li>
+                <li>Modo seguro</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos especializados */
+  .case-timeline {
+    border-left: 3px solid #1A3E5C;
+    margin: 2rem 0;
+    padding-left: 2rem;
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(26, 62, 92, 0.1);
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    left: -2.8rem;
+    top: 1rem;
+    background: white;
+    border: 3px solid #1A3E5C;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  
+  .case-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .impact-badge {
+    background: #FFEBEE;
+    color: #C62828;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+  
+  .case-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .stat-item {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    flex: 1;
+  }
+  
+  .stat-item.negative {
+    background: #FFEBEE;
+    border: 2px solid #C62828;
+  }
+  
+  .stat-item.positive {
+    background: #E8F5E9;
+    border: 2px solid #2E7D32;
+  }
+  
+  .technical-breakdown {
+    background: #F8F9FA;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+  
+  .cause-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .cause-item {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .threshold-bar {
+    height: 30px;
+    background: #eee;
+    border-radius: 15px;
+    margin: 1rem 0;
+    position: relative;
+  }
+  
+  .threshold-fill {
+    height: 100%;
+    border-radius: 15px;
+    position: absolute;
+  }
+  
+  .threshold-bar.error .threshold-fill {
+    background: #C62828;
+  }
+  
+  .threshold-bar.warning .threshold-fill {
+    background: #FFA000;
+  }
+  
+  .survival-kit {
+    background: linear-gradient(135deg, #ffffff 0%, #2C5F8A 100%);
+    color: rgb(0, 0, 0);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+  
+  .kit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .tool-card {
+    background: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+  }
+  
+  @media (max-width: 768px) {
+    .case-details {
+      grid-template-columns: 1fr;
+    }
+    
+    .case-stats {
+      flex-direction: column;
+    }
+  }
+  </style>
 
-                <!-- Guía práctica -->
-                <div class="card exercise-card">
-                    <div class="exercise-header">
-                        <h3>🛠️ Taller Práctico: Rediseño Adaptativo</h3>
-                        <div class="deco-line"></div>
+<!-- Artículo 6: Tendencias Futuras - Versión Mejorada -->
+<section class="page" id="art6">
+    <article class="article">
+      <h2 class="article-title">Fronteras Digitales: La Próxima Evolución de las E/S</h2>
+  
+      <div class="scrollable-content">
+        <!-- Sección Principal -->
+        <div class="main-grid">
+          <!-- Infografía 3D -->
+          <div class="trend-infographic card">
+            <div class="layered-diagram">
+              <div class="diagram-section physical">
+                <h4>🖲️ Capa Física</h4>
+                <div class="sensor-grid">
+                  <div class="sensor-item">
+                    <div class="sensor-icon">🩺</div>
+                    <h5>Biométricos</h5>
+                    <p>Sensores de frecuencia cardíaca<br>±2 bpm precisión</p>
+                  </div>
+                  <div class="sensor-item">
+                    <div class="sensor-icon">🌡️</div>
+                    <h5>Ambientales</h5>
+                    <p>Detección multiparamétrica<br>0.1°C resolución</p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="diagram-section processing">
+                <h4>💻 Capa Lógica</h4>
+                <div class="processing-flow">
+                  <div class="flow-step">
+                    <div class="step-marker">1</div>
+                    <div class="step-content">
+                      <h6>Fusión Sensorial</h6>
+                      <p>Agregación de datos multimodales</p>
                     </div>
-                    <div class="exercise-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>Análisis de Contenido</h4>
-                                <p>Identifica elementos clave y</p>
-                                  <p>prioriza información</p>
-                                <div class="tag-list">
-                                  <br>
-                                    <span class="tag">Texto principal</span>
-                                    <br>
-                                    <span class="tag">Datos numéricos</span>
-                                    <br>
-                                    <span class="tag">Llamados a acción</span>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Diseño Base</h4>
-                                <p>Crea estructura responsive con:</p>
-                                <pre>.container {
+                  </div>
+                  <div class="flow-arrow">→</div>
+                  <div class="flow-step">
+                    <div class="step-marker">2</div>
+                    <div class="step-content">
+                      <h6>Modelado Contextual</h6>
+                      <p>Análisis predictivo con ML</p>
+                    </div>
+                  </div>
+                  <div class="flow-arrow">→</div>
+                  <div class="flow-step">
+                    <div class="step-marker">3</div>
+                    <div class="step-content">
+                      <h6>Decisión Adaptativa</h6>
+                      <p>Respuesta en <15ms</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Comparativa Técnica -->
+          <div class="tech-comparison card">
+            <h3>⚡ Tecnologías Emergentes</h3>
+            <div class="comparison-grid">
+              <div class="tech-card">
+                <div class="tech-header neural">
+                  <div class="tech-icon">🧠</div>
+                  <h4>Interfaces Neurales</h4>
+                </div>
+                <div class="tech-specs">
+                  <div class="spec-item">
+                    <span class="spec-label">Sensibilidad</span>
+                    <div class="spec-value">0.5-2mV</div>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Latencia</span>
+                    <div class="spec-value">50ms</div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="tech-card">
+                <div class="tech-header gesture">
+                  <div class="tech-icon">👋</div>
+                  <h4>Control Gestual</h4>
+                </div>
+                <div class="tech-specs">
+                  <div class="spec-item">
+                    <span class="spec-label">Precisión</span>
+                    <div class="spec-value">2mm</div>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Campo</span>
+                    <div class="spec-value">180°</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Timeline Tecnológica -->
+        <div class="timeline-section card">
+          <h3>🚀 Roadmap 2024-2030</h3>
+          <div class="roadmap">
+            <div class="roadmap-item">
+              <div class="year-marker">2024</div>
+              <div class="roadmap-content">
+                <h5>Háptica de Alta Definición</h5>
+                <p>Feedback táctil de 1000Hz</p>
+              </div>
+            </div>
+            <div class="roadmap-item">
+              <div class="year-marker">2027</div>
+              <div class="roadmap-content">
+                <h5>Interfaces No Invasivas</h5>
+                <p>Sensores epidérmicos</p>
+              </div>
+            </div>
+            <div class="roadmap-item">
+              <div class="year-marker">2030</div>
+              <div class="roadmap-content">
+                <h5>Integración Sensorial Total</h5>
+                <p>100+ sensores/cm²</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Consideraciones Éticas -->
+        <div class="ethics-section card">
+          <div class="ethics-header">
+            <div class="ethics-icon">⚖️</div>
+            <h3>Desafíos Éticos</h3>
+          </div>
+          <div class="ethics-grid">
+            <div class="ethics-card privacy">
+              <h5>Privacidad</h5>
+              <ul>
+                <li>Encriptación E2E</li>
+                <li>Datos anonimizados</li>
+                <li>Consentimiento dinámico</li>
+              </ul>
+            </div>
+            <div class="ethics-card security">
+              <h5>Seguridad</h5>
+              <ul>
+                <li>Protección neural</li>
+                <li>Autenticación biométrica</li>
+                <li>Hardening de firmware</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos Mejorados */
+  .main-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 2rem;
+  }
+  
+  .trend-infographic {
+    padding: 2rem;
+    background: #F8F9FA;
+    border-radius: 16px;
+  }
+  
+  .diagram-section {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .diagram-section.physical {
+    background: linear-gradient(135deg, #E8F5EF 0%, #D4EDE4 100%);
+    border: 1px solid #6DAA8B;
+  }
+  
+  .diagram-section.processing {
+    background: linear-gradient(135deg, #E6F0FF 0%, #D2E3FC 100%);
+    border: 1px solid #2C5F8A;
+  }
+  
+  .sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .sensor-item {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .processing-flow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .flow-step {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .flow-arrow {
+    font-size: 1.5rem;
+    color: #1A3E5C;
+    margin: 0 1rem;
+  }
+  
+  .tech-comparison {
+    padding: 2rem;
+    background: #FFFFFF;
+    border-radius: 16px;
+  }
+  
+  .comparison-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .tech-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .roadmap-item {
+    padding: 1.5rem;
+    border-left: 4px solid #1A3E5C;
+    background: #F8F9FA;
+    border-radius: 8px;
+  }
+  
+  .ethics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .ethics-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #FFF;
+  }
+  
+  @media (max-width: 1024px) {
+    .main-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .processing-flow {
+      flex-direction: column;
+    }
+    
+    .flow-arrow {
+      transform: rotate(90deg);
+      margin: 1rem 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sensor-grid,
+    .comparison-grid,
+    .roadmap,
+    .ethics-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .tech-card,
+    .roadmap-item,
+    .ethics-card {
+      margin-bottom: 1rem;
+    }
+  }
+  </style>
+
+<!-- Artículo 7: Multimodalidad y Adaptación -->
+<section class="page" id="art7">
+    <article class="article">
+      <h2 class="article-title">Sistemas Sensibles: La Nueva Era de las Interfaces Contextuales</h2>
+  
+      <div class="scrollable-content">
+        <!-- Infografía Principal -->
+        <div class="multimodal-diagram">
+          <div class="sensor-layer">
+            <div class="sensor-node">
+              <div class="sensor-icon">👁️</div>
+              <p>Reconocimiento Visual</p>
+            </div>
+            <div class="sensor-node">
+              <div class="sensor-icon">🎤</div>
+              <p>Análisis de Voz</p>
+            </div>
+            <div class="sensor-node">
+              <div class="sensor-icon">🖐️</div>
+              <p>Detección Gestual</p>
+            </div>
+          </div>
+          
+          <div class="fusion-core">
+            <div class="ai-processor">
+              <div class="pulse-effect"></div>
+              <h4>Núcleo de Fusión Multimodal</h4>
+              <ul class="fusion-features">
+                <li>Modelos Transformer</li>
+                <li>Latencia < 80ms</li>
+                <li>Auto-calibración</li>
+              </ul>
+            </div>
+          </div>
+  
+          <div class="output-layer">
+            <div class="adaptive-output">
+              <div class="output-icon">📱</div>
+              <p>Interfaz Adaptativa</p>
+            </div>
+            <div class="adaptive-output">
+              <div class="output-icon">🤖</div>
+              <p>Respuesta Contextual</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Tabla Comparativa de Tendencias -->
+        <div class="trend-comparison">
+          <div class="comparison-header">
+            <h3>⚡ Evolución de Modos de Interacción</h3>
+            <div class="tech-labels">
+              <span class="label-2020">2020</span>
+              <span class="label-2024">2024</span>
+              <span class="label-2028">2028*</span>
+            </div>
+          </div>
+          
+          <div class="comparison-row input-modes">
+            <div class="tech-era">
+              <div class="era-icon">⌨️</div>
+              <p>Unimodal</p>
+            </div>
+            <div class="tech-era">
+              <div class="era-icon">🤖</div>
+              <p>Bimodal</p>
+            </div>
+            <div class="tech-era">
+              <div class="era-icon">🧠</div>
+              <p>Omnimodal</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Caso de Implementación -->
+        <div class="case-study adaptive-system">
+          <div class="case-header">
+            <h3>🏥 Sistema Médico Adaptativo</h3>
+            <p>Monitorización quirúrgica multimodal</p>
+          </div>
+          <div class="case-stats">
+            <div class="case-metric">
+              <div class="metric-value">97.3%</div>
+              <div class="metric-label">Precisión diagnóstico</div>
+            </div>
+            <div class="case-metric">
+              <div class="metric-value">0.4s</div>
+              <div class="metric-label">Respuesta crítica</div>
+            </div>
+          </div>
+          <div class="tech-breakdown">
+            <div class="tech-component">
+              <h4>Stack Tecnológico</h4>
+              <ul class="tech-stack">
+                <li>TensorFlow Multimodal v4.2</li>
+                <li>DSP BioSignal Processing</li>
+                <li>API de Contexto Operativo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Consideraciones Éticas -->
+        <div class="ethics-panel">
+          <div class="ethics-header">
+            <h3>⚖️ Marco Ético para Sistemas Adaptativos</h3>
+            <div class="ethics-icon">!</div>
+          </div>
+          <div class="ethics-principles">
+            <div class="principle">
+              <h4>Transparencia Algorítmica</h4>
+              <p>Registros detallados de decisiones adaptativas</p>
+            </div>
+            <div class="principle">
+              <h4>Control Humano</h4>
+              <p>Anulación manual prioritaria</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos Especializados */
+  .multimodal-diagram {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 500px;
+    margin: 2rem 0;
+  }
+  
+  .sensor-layer, .output-layer {
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+  }
+  
+  .sensor-node, .adaptive-output {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #E8F5EF;
+    border: 2px solid #6DAA8B;
+    width: 180px;
+  }
+  
+  .fusion-core {
+    position: relative;
+    margin: 2rem 0;
+    padding: 3rem;
+  }
+  
+  .ai-processor {
+    background: #1A3E5C;
+    color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .pulse-effect {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(108,170,139,0.2) 0%, rgba(26,62,92,0) 70%);
+    animation: pulse 2s infinite;
+    top: -50%;
+    left: -50%;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.4; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+  
+  .trend-comparison {
+    background: #FFF;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(26,62,92,0.1);
+    padding: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .comparison-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .tech-era {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #F8F9FA;
+  }
+  
+  .adaptive-system {
+    background: linear-gradient(135deg, #1A3E5C 0%, #2C5F8A 100%);
+    color: rgb(0, 0, 0);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+  }
+  
+  .ethics-panel {
+    background: #FFEBEE;
+    border: 2px solid #C62828;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .ethics-principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .principle {
+    background: rgba(255,255,255,0.9);
+    padding: 1.5rem;
+    border-radius: 8px;
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .sensor-layer, .output-layer {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .comparison-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  </style>
+
+<!-- Artículo 8: Casos Reales -->
+<section class="page" id="art8">
+    <article class="article">
+      <h2 class="article-title">Lecciones de Campo: Fallos Sistémicos y Soluciones Técnicas</h2>
+  
+      <div class="scrollable-content">
+        <!-- Caso 1: Hospital -->
+        <div class="case-study-card critical">
+          <div class="case-header">
+            <div class="case-icon">🏥</div>
+            <div class="case-meta">
+              <h3>Error en Dosificación Médica</h3>
+              <div class="case-timeline">2018 | Sistema Hospitalario EUA</div>
+            </div>
+          </div>
+          
+          <div class="comparative-grid">
+            <div class="failure-details">
+              <h4>Fallo Crítico</h4>
+              <div class="failure-metrics">
+                <div class="metric-item">
+                  <div class="metric-value">234</div>
+                  <div class="metric-label">Pacientes afectados</div>
+                </div>
+                <div class="metric-item">
+                  <div class="metric-value">mg/mL vs mL</div>
+                  <div class="metric-label">Confusión de unidades</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="solution-details">
+              <h4>Solución Implementada</h4>
+              <div class="solution-steps">
+                <div class="step">
+                  <div class="step-number">1</div>
+                  <p>Validación dimensional en entrada</p>
+                </div>
+                <div class="step">
+                  <div class="step-number">2</div>
+                  <p>Conversión automática a ISO</p>
+                </div>
+                <div class="step">
+                  <div class="step-number">3</div>
+                  <p>Doble verificación RFID</p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="improvement-stats">
+            <div class="stat-card">
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Precisión actual</div>
+              <div class="stat-progress perfect"></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">0.2s</div>
+              <div class="stat-label">Tiempo verificación</div>
+              <div class="stat-progress fast"></div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Caso 2: Sistema Financiero -->
+        <div class="case-study-card financial">
+          <div class="case-header">
+            <div class="case-icon">💸</div>
+            <div class="case-meta">
+              <h3>Transacciones Negativas</h3>
+              <div class="case-timeline">2021 | Plataforma Trading</div>
+            </div>
+          </div>
+          
+          <div class="comparative-chart">
+            <div class="chart-row">
+              <div class="chart-label">Errores de validación</div>
+              <div class="chart-bar">
+                <div class="bar-fill before" style="width: 80%">80%</div>
+                <div class="bar-fill after" style="width: 100%">0.1%</div>
+              </div>
+            </div>
+            <div class="chart-row">
+              <div class="chart-label">Tiempo respuesta</div>
+              <div class="chart-bar">
+                <div class="bar-fill before" style="width: 40%">18h</div>
+                <div class="bar-fill after" style="width: 100%">15min</div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="technical-breakdown">
+            <h4>Mejoras Clave</h4>
+            <div class="improvement-grid">
+              <div class="improvement-item">
+                <div class="tech-icon">🔢</div>
+                <p>Validación de rango estricta</p>
+              </div>
+              <div class="improvement-item">
+                <div class="tech-icon">⏱️</div>
+                <p>Lock transaccional optimizado</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Panel de Lecciones -->
+        <div class="lessons-panel">
+          <div class="panel-header">
+            <div class="lesson-icon">📚</div>
+            <h3>Patrones de Diseño Esenciales</h3>
+          </div>
+          <div class="lesson-grid">
+            <div class="lesson-card">
+              <h4>Circuit Breaker</h4>
+              <div class="lesson-progress">
+                <div class="progress-fill" style="width: 90%">90% Efectividad</div>
+              </div>
+              <p>Aislamiento de subsistemas críticos</p>
+            </div>
+            <div class="lesson-card">
+              <h4>Validación en Capas</h4>
+              <div class="lesson-progress">
+                <div class="progress-fill" style="width: 95%">95% Detección</div>
+              </div>
+              <p>Defensa en profundidad</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos alineados con Artículo 4 */
+  .case-study-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 24px rgba(26, 62, 92, 0.1);
+  }
+  
+  .case-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+  }
+  
+  .case-icon {
+    font-size: 2.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #E8F5EF;
+  }
+  
+  .comparative-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .failure-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .metric-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #FFEBEE;
+    border-radius: 8px;
+    border: 2px solid #C62828;
+  }
+  
+  .solution-steps {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: #E8F5EF;
+    border-radius: 8px;
+  }
+  
+  .improvement-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .stat-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #F8F9FA;
+  }
+  
+  .stat-progress {
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+  
+  .perfect { background: #6DAA8B; width: 100%; }
+  .fast { background: #2C5F8A; width: 90%; }
+  
+  .comparative-chart {
+    margin: 2rem 0;
+  }
+  
+  .chart-bar {
+    height: 30px;
+    background: #eee;
+    border-radius: 15px;
+    margin: 1rem 0;
+    position: relative;
+  }
+  
+  .bar-fill {
+    height: 100%;
+    position: absolute;
+    border-radius: 15px;
+    color: white;
+    text-align: right;
+    padding-right: 8px;
+  }
+  
+  .before { background: #C62828; z-index: 1; }
+  .after { background: #6DAA8B; }
+  
+  .technical-breakdown {
+    background: #F8F9FA;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+  
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .lesson-card {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  @media (max-width: 768px) {
+    .comparative-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .chart-bar {
+      height: 50px;
+    }
+    
+    .case-header {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  </style>
+
+  <!-- Artículo 9: Seguridad en Entradas -->
+<section class="page" id="art9">
+    <article class="article">
+      <h2 class="article-title">Fortificación Digital: Estrategias Técnicas de Defensa</h2>
+  
+      <div class="scrollable-content">
+        <!-- Mapa de Amenazas -->
+        <div class="threat-map card">
+          <div class="map-header">
+            <h3>⚔️ Panorama Actual de Ataques</h3>
+            <div class="year-filter">2024</div>
+          </div>
+          <div class="threat-matrix">
+            <div class="threat-card sql">
+              <div class="threat-icon">💉</div>
+              <div class="threat-content">
+                <h4>Inyección SQL</h4>
+                <div class="threat-stats">
+                  <div class="stat">38%</div>
+                  <div class="stat-label">de ataques web</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="threat-card xss">
+              <div class="threat-icon">🕷️</div>
+              <div class="threat-content">
+                <h4>XSS</h4>
+                <div class="threat-stats">
+                  <div class="stat">29%</div>
+                  <div class="stat-label">en aplicaciones</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Escudo Técnico -->
+        <div class="defense-grid">
+          <div class="defense-card prevention">
+            <div class="defense-header">
+              <div class="shield-icon">🛡️</div>
+              <h3>Prevención Activa</h3>
+            </div>
+            <div class="defense-layers">
+              <div class="layer">
+                <div class="layer-number">1</div>
+                <p>Validación de Entrada Estructural</p>
+                <div class="efficiency-bar" style="width: 95%">95%</div>
+              </div>
+              <div class="layer">
+                <div class="layer-number">2</div>
+                <p>Sanitización Contextual</p>
+                <div class="efficiency-bar" style="width: 88%">88%</div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="defense-card detection">
+            <div class="defense-header">
+              <div class="radar-icon">📡</div>
+              <h3>Detección en Tiempo Real</h3>
+            </div>
+            <div class="detection-metrics">
+              <div class="metric">
+                <div class="metric-value">12ms</div>
+                <div class="metric-label">Respuesta</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">99.7%</div>
+                <div class="metric-label">Precisión</div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Herramientas Profesionales -->
+        <div class="toolbox card">
+          <h3>🛠️ Arsenal de Seguridad</h3>
+          <div class="tool-grid">
+            <div class="tool-card">
+              <div class="tool-icon">🔐</div>
+              <h4>OWASP ZAP</h4>
+              <div class="tool-stats">
+                <div class="stat">+150</div>
+                <div class="stat-label">vulnerabilidades detectables</div>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">🛡️</div>
+              <h4>ModSecurity</h4>
+              <div class="tool-stats">
+                <div class="stat">98%</div>
+                <div class="stat-label">ataques bloqueados</div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Caso de Éxito -->
+        <div class="case-study success">
+          <div class="case-timeline">
+            <div class="timeline-marker">2023</div>
+            <div class="case-content">
+              <h3>🏦 Sistema Bancario Seguro</h3>
+              <div class="improvement-chart">
+                <div class="chart-row">
+                  <div class="chart-label">Intentos de intrusión</div>
+                  <div class="chart-bar">
+                    <div class="before" style="width: 80%">1,200/mes</div>
+                    <div class="after" style="width: 100%">8/mes</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tech-breakdown">
+                <h4>Tecnologías Clave</h4>
+                <div class="tech-tags">
+                  <span class="tag">WAF Personalizado</span>
+                  <span class="tag">AI Anomalías</span>
+                  <span class="tag">Firmware HSMs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos alineados con Artículo 4 */
+  .threat-map {
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFEBEB 100%);
+    border: 2px solid #C62828;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .threat-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .threat-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .sql { background: #FFEBEE; border: 2px solid #C62828; }
+  .xss { background: #FFF3E0; border: 2px solid #FFA000; }
+  
+  .defense-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}</pre>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Adaptación Multimedia</h4>
-                                <ul class="adaptation-list">
-                                    <li>Impreso: SVG → PDF (Vectorial)</li>
-                                    <li>Digital: SVG → PNG (Raster)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .defense-card {
+    padding: 2rem;
+    border-radius: 16px;
+  }
+  
+  .prevention {
+    background: #E8F5EF;
+    border: 2px solid #6DAA8B;
+  }
+  
+  .detection {
+    background: #E3F2FD;
+    border: 2px solid #2C5F8A;
+  }
+  
+  .efficiency-bar {
+    height: 12px;
+    background: #fff;
+    border-radius: 6px;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+  
+  .efficiency-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    background: #1A3E5C;
+    border-radius: 6px;
+  }
+  
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .tool-card {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .case-study.success {
+    background: linear-gradient(135deg, #E8F5EF 0%, #D4EDE4 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .improvement-chart {
+    margin: 2rem 0;
+  }
+  
+  .chart-bar {
+    height: 30px;
+    background: #eee;
+    border-radius: 15px;
+    position: relative;
+  }
+  
+  .before, .after {
+    height: 100%;
+    position: absolute;
+    border-radius: 15px;
+    color: white;
+    text-align: right;
+    padding-right: 8px;
+  }
+  
+  .before { background: #C62828; z-index: 1; }
+  .after { background: #6DAA8B; }
+  
+  .tech-tags {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .tag {
+    background: #2C5F8A;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .threat-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .defense-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  </style>
 
-                <!-- Consejo destacado -->
-                <div class="card pro-tip" style="grid-column: 1 / -1;">
-                    <div class="tip-content">
-                        <div class="tip-icon">💡</div>
-                        <div>
-                            <h3>Técnica de Diseño Unificado</h3>
-                            <p>Usa variables CSS para sincronizar estilos:</p>
-                            <pre>:root {
-    --color-primary: #1A3E5C;
-    --spacing-unit: 1rem;
-    --font-base: 'Montserrat', sans-serif;
-}</pre>
-                            <p>Aplica mismas variables en InDesign/Illustrator</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
-</section>
-
-    <!-- Artículo 5: Casos de Éxito -->
-    <section class="page" id="art5">
+  <!-- Artículo 10: APIs como Sistema de E/S -->
+<section class="page" id="art10">
     <article class="article">
-        <h2 class="article-title">Patrones de Éxito: Lecciones de Gigantes Digitales</h2>
-        
-        <div class="scrollable-content">
-            <!-- Introducción -->
-            <div class="highlight-block intro-block">
-                <p>Analizando los sistemas de líderes de la industria, encontramos patrones clave en diseño E/S:</p>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">0.3s</div>
-                        <div class="stat-label">Tiempo respuesta promedio</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">98%</div>
-                        <div class="stat-label">Tasa de éxito en formularios</div>
-                    </div>
-                </div>
+      <h2 class="article-title">Arquitectura API-Céntrica: El Sistema Circulatorio Digital</h2>
+  
+      <div class="scrollable-content">
+        <!-- Introducción Conceptual -->
+        <div class="intro-section">
+          <p class="lead-text">En la era de sistemas distribuidos, las APIs han evolucionado de simples interfaces a ecosistemas complejos que gestionan el 83% del tráfico digital global. Su diseño técnico determina la eficiencia, seguridad y escalabilidad de aplicaciones modernas.</p>
+          
+          <div class="api-stats">
+            <div class="stat-card">
+              <div class="stat-value">74%</div>
+              <div class="stat-label">Empresas con estrategia API-first</div>
             </div>
-
-            <!-- Contenido principal -->
-            <div class="grid case-grid">
-                <!-- Google -->
-                <div class="card case-card">
-                    <div class="case-header">
-                        <img src="img/google.png" alt="Google" class="company-logo">
-                        <h3>Registro Ultra-Ágil</h3>
-                    </div>
-                    <div class="case-content">
-                        <div class="case-intro">
-                            <p>Revolucionando la captura de datos con:</p>
-                        </div>
-                        <ul class="case-points">
-                            <li>
-                                <span class="point-icon">🎯</span>
-                                <div>
-                                    <h4>Predictive Input</h4>
-                                    <p>Autocompletado basado en ML</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="point-icon">⚡</span>
-                                <div>
-                                    <h4>Validación en Tiempo Real</h4>
-                                    <p>Detección de errores al tipear</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="point-icon">🔄</span>
-                                <div>
-                                    <h4>Sync Multiplataforma</h4>
-                                    <p>Continúa en móvil donde dejaste en desktop</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Amazon -->
-                <div class="card case-card">
-                    <div class="case-header">
-                        <img src="img/amazon.jpg" alt="Amazon" class="company-logo">
-                        <h3>Checkout de 1-Clic</h3>
-                    </div>
-                    <div class="case-content">
-                        <div class="case-intro">
-                            <p>Optimizando la conversión mediante:</p>
-                        </div>
-                        <ul class="case-points">
-                            <li>
-                                <span class="point-icon">📦</span>
-                                <div>
-                                    <h4>Datos Persistentes</h4>
-                                    <p>Direcciones y pagos guardados</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="point-icon">🔐</span>
-                                <div>
-                                    <h4>Seguridad Contextual</h4>
-                                    <p>Reautenticación solo cuando es necesario</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="point-icon">📲</span>
-                                <div>
-                                    <h4>Diseño Adaptativo</h4>
-                                    <p>Flujo único para todos los dispositivos</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Lecciones clave -->
-                <div class="card lesson-card" style="grid-column: 1 / -1;">
-                    <div class="lesson-content">
-                        <h3>🧠 Takeaways Esenciales</h3>
-                        <div class="lesson-grid">
-                            <div class="lesson-item">
-                                <div class="lesson-icon">💡</div>
-                                <p>Priorizar velocidad sobre completitud</p>
-                            </div>
-                            <div class="lesson-item">
-                                <div class="lesson-icon">💡</div>
-                                <p>Unificar experiencias cross-platform</p>
-                            </div>
-                            <div class="lesson-item">
-                                <div class="lesson-icon">💡</div>
-                                <p>Anticipar necesidades del usuario</p>
-                            </div>
-                        </div>
-                        <div class="download-section">
-                            <button class="btn-secondary">
-                                <span class="icon">⤓</span> 
-                                Descargar Checklist
-                            </button>
-                            <p class="file-info">Incluye 15 puntos de verificación UX</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-card">
+              <div class="stat-value">22ms</div>
+              <div class="stat-label">Latencia promedio REST</div>
             </div>
+          </div>
         </div>
+  
+        <!-- Principios Técnicos -->
+        <div class="principles-grid">
+          <div class="principle-card">
+            <div class="principle-icon">🔄</div>
+            <h3>Desacoplamiento Estructural</h3>
+            <p>Las APIs permiten evolución independiente de componentes mediante contratos bien definidos. Un diseño efectivo reduce las dependencias directas en un 67%.</p>
+          </div>
+          
+          <div class="principle-card">
+            <div class="principle-icon">📦</div>
+            <h3>Serialización Eficiente</h3>
+            <p>Elección de formatos según contexto técnico:
+              <span class="tech-tag">JSON</span> para web,
+              <span class="tech-tag">Protobuf</span> para IoT,
+              <span class="tech-tag">Avro</span> en Big Data.</p>
+          </div>
+        </div>
+  
+        <!-- Flujo Técnico Detallado -->
+        <div class="flow-diagram">
+          <h3>⚙️ Ciclo de Vida de una Solicitud API</h3>
+          <div class="flow-steps">
+            <div class="step">
+              <div class="step-marker">1</div>
+              <div class="step-content">
+                <h4>Autenticación</h4>
+                <p>Validación JWT/OAuth2 con tiempos de respuesta <15ms</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <div class="step-marker">2</div>
+              <div class="step-content">
+                <h4>Procesamiento</h4>
+                <p>Ejecución en contenedores aislados con límites de 500ms</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <div class="step-marker">3</div>
+              <div class="step-content">
+                <h4>Respuesta</h4>
+                <p>Compresión GZIP + caché LRU para optimizar ancho de banda</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Cuadro Comparativo -->
+        <div class="comparison-table">
+          <h3>🔍 Métodos HTTP: Semántica Técnica</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Verbo</th>
+                <th>Idempotencia</th>
+                <th>Código Éxito</th>
+                <th>Uso Óptimo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GET</td>
+                <td>Sí</td>
+                <td>200</td>
+                <td>Recuperar recursos sin efectos secundarios</td>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>No</td>
+                <td>201</td>
+                <td>Creación de recursos complejos</td>
+              </tr>
+              <tr>
+                <td>PUT</td>
+                <td>Sí</td>
+                <td>200/204</td>
+                <td>Actualización completa de recursos</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <!-- Caso de Estudio -->
+        <div class="case-study">
+          <div class="case-header">
+            <div class="case-icon">🏦</div>
+            <h3>Transformación Bancaria: De Monolito a Microservicios</h3>
+          </div>
+          <div class="case-stats">
+            <div class="stat improvement">
+              <div class="stat-value">14x</div>
+              <div class="stat-label">Throughput mejorado</div>
+            </div>
+            <div class="stat latency">
+              <div class="stat-value">320ms → 45ms</div>
+              <div class="stat-label">Reducción latencia</div>
+            </div>
+          </div>
+          <div class="technical-details">
+            <h4>Implementación Clave</h4>
+            <ul class="tech-list">
+              <li>API Gateway con rate limiting</li>
+              <li>Circuit Breaker pattern</li>
+              <li>Validación JWT con HS256</li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Buenas Prácticas -->
+        <div class="best-practices">
+          <h3>✅ Checklist de Diseño Profesional</h3>
+          <div class="practice-grid">
+            <div class="practice-item">
+              <div class="check-icon">✓</div>
+              <p>Versionado semántico (v1.2.3)</p>
+            </div>
+            <div class="practice-item">
+              <div class="check-icon">✓</div>
+              <p>Límites de tasa por cliente</p>
+            </div>
+            <div class="practice-item">
+              <div class="check-icon">✓</div>
+              <p>Documentación OpenAPI 3.0</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </article>
-</section>
+  </section>
+  
+  <style>
+  /* Estilos mejorados */
+  .intro-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #F8F9FA;
+    border-radius: 16px;
+  }
+  
+  .api-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .principle-card {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .flow-diagram {
+    background: linear-gradient(135deg, #E8F5EF 0%, #D4EDE4 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+  }
+  
+  .flow-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+  }
+  
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .comparison-table {
+    overflow-x: auto;
+    margin: 3rem 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+  
+  th {
+    background: #1A3E5C;
+    color: white;
+    padding: 1.2rem;
+  }
+  
+  td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .case-study {
+    background: #E6F0FF;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .best-practices {
+    background: #FFF5E6;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .flow-steps {
+      flex-direction: column;
+    }
+    
+    .step {
+      margin: 1rem 0;
+    }
+    
+    .step-arrow {
+      transform: rotate(90deg);
+      margin: 1rem 0;
+    }
+  }
+  </style>
 
-    <!-- Artículo 6: Entretenimiento UX -->
-    <section class="page" id="art6">
+<!-- Artículo 11: IoT como Sistema de Entrada -->
+<section class="page" id="art11">
+    <article class="article">
+      <h2 class="article-title">Sensórica Embebida: Los Sentidos de la IoT</h2>
+  
+      <div class="scrollable-content">
+        <!-- Introducción Técnica -->
+        <div class="intro-card">
+          <p class="lead-text">Los sistemas IoT actuales procesan más de 35ZB de datos anuales mediante sensores especializados. Estos dispositivos no solo capturan información, sino que permiten a los sistemas interactuar de forma inteligente con el entorno físico. Comprender su selección, calibración y mantenimiento es crucial para garantizar precisión y fiabilidad en aplicaciones críticas.</p>
+          <p>La integración de sensores abarca desde nodos con bajo consumo en redes extendidas hasta módulos de alta velocidad en entornos industriales. Cada elección tecnológica impacta directamente en la eficiencia energética, el ancho de banda requerido y el costo de implementación.</p>
+          <div class="sensor-stats">
+            <div class="stat-card">
+              <div class="stat-value">1.2M</div>
+              <div class="stat-label">Muestras/segundo (Sensores Clase II)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">±0.01%</div>
+              <div class="stat-label">Precisión Industrial</div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Taxonomía Sensórica -->
+        <div class="sensor-taxonomy">
+          <h3>🔍 Clasificación Técnica de Sensores</h3>
+          <p>Los sensores se clasifican según magnitud medida, principio operativo y entorno de uso. Esta taxonomía facilita la selección adecuada a cada caso de uso, optimizando rendimiento y durabilidad.</p>
+          <div class="taxonomy-grid">
+            <div class="sensor-type">
+              <div class="sensor-icon">🌡️</div>
+              <h4>Térmicos</h4>
+              <ul class="spec-list">
+                <li>Rango: -200°C a 1800°C</li>
+                <li>Protocolo: Modbus RTU</li>
+                <li>Precisión: ±0.5°C</li>
+              </ul>
+              <p>Utilizados en hornos industriales y procesos de soldadura, estos sensores soportan ambientes extremos y requieren blindaje especializado.</p>
+            </div>
+            
+            <div class="sensor-type">
+              <div class="sensor-icon">💧</div>
+              <h4>Ambientales</h4>
+              <ul class="spec-list">
+                <li>Parámetros: pH / Humedad / CO₂</li>
+                <li>Protocolo: LoRaWAN</li>
+                <li>Resolución: 0.1% RH</li>
+              </ul>
+              <p>Ideales para monitoreo de calidad del aire y condiciones climáticas en agricultura de precisión, combinan bajo consumo y largo alcance.</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Arquitectura Típica -->
+        <div class="architecture-diagram">
+          <h3>⚙️ Flujo de Datos Industrial</h3>
+          <p>La arquitectura típica inicia con la adquisición de señales analógicas, las cuales son digitalizadas y preprocesadas antes de su transmisión. Este proceso en tres etapas garantiza datos limpios y optimizados para análisis en tiempo real.</p>
+          <div class="architecture-steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h5>Adquisición</h5>
+                <p>Muestreo a 1kHz con ADC de 24-bit, minimizando error de cuantificación y ruido.</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h5>Preprocesamiento</h5>
+                <p>Aplicación de filtro de Kalman y normalización de señal para estandarizar rangos.</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h5>Transmisión</h5>
+                <p>Envío vía MQTT con QoS 2 para asegurar entrega exacta y orden de mensajes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Comparativa de Protocolos -->
+        <div class="protocol-comparison">
+          <h3>📡 Balance Técnico: Protocolos IoT</h3>
+          <p>La elección del protocolo determina alcance, consumo y ancho de banda. A continuación, una comparativa que destaca fortalezas y limitaciones de los más utilizados:</p>
+          <table class="tech-table">
+            <thead>
+              <tr>
+                <th>Protocolo</th>
+                <th>Rango</th>
+                <th>Consumo</th>
+                <th>Throughput</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>LoRaWAN</td>
+                <td>15 km</td>
+                <td>50 μA</td>
+                <td>50 kbps</td>
+              </tr>
+              <tr>
+                <td>Zigbee</td>
+                <td>100 m</td>
+                <td>40 mA</td>
+                <td>250 kbps</td>
+              </tr>
+              <tr>
+                <td>NB-IoT</td>
+                <td>10 km</td>
+                <td>20 mA</td>
+                <td>200 kbps</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <!-- Caso de Uso Industrial -->
+        <div class="case-study industrial">
+          <div class="case-header">
+            <div class="case-icon">🏭</div>
+            <h3>Monitoreo de Turbinas Eólicas</h3>
+          </div>
+          <p>La monitorización remota de turbinas requiere decenas de sensores para capturar vibraciones, temperatura y humedad. Estos datos permiten predecir fallas y optimizar mantenimientos.</p>
+          <div class="case-stats">
+            <div class="stat">
+              <div class="stat-value">200+</div>
+              <div class="stat-label">Sensores por unidad</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">99.98%</div>
+              <div class="stat-label">Fiabilidad datos</div>
+            </div>
+          </div>
+          <div class="implementation-details">
+            <h4>Implementación Clave</h4>
+            <ul class="tech-tags">
+              <li>Sensores piezoeléctricos para detección de vibraciones</li>
+              <li>Edge Computing para análisis local en tiempo real</li>
+              <li>Encriptación AES-256 para proteger comunicaciones</li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Consideraciones de Diseño -->
+        <div class="design-considerations">
+          <h3>⚡ Checklist de Implementación</h3>
+          <p>Para desplegar un sistema de sensórica robusto, considere los siguientes puntos críticos:</p>
+          <div class="checklist-grid">
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Calibración in situ con patrones NIST cada 6 meses</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Márgen de error &le; 0.5% del FSR (Full Scale Range)</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Protección IP67 en entornos hostiles y corrosivos</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Monitorización continua de salud del sensor con alertas automáticas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos alineados con artículos anteriores */
+  .intro-card {
+    background: #F8F9FA;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+  
+  .sensor-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .sensor-taxonomy {
+    margin: 3rem 0;
+  }
+  
+  .taxonomy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  
+  .sensor-type {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  
+  .architecture-diagram {
+    background: linear-gradient(135deg, #E8F5EF 0%, #D4EDE4 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+  }
+  
+  .protocol-comparison {
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+  
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+  
+  .tech-table th {
+    background: #1A3E5C;
+    color: white;
+    padding: 1.2rem;
+  }
+  
+  .tech-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .industrial.case-study {
+    background: #E6F0FF;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .design-considerations {
+    background: #FFF5E6;
+    padding: 2rem;
+    border-radius: 16px;
+  }
+  
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .architecture-steps {
+      flex-direction: column;
+    }
+    .step-arrow {
+      transform: rotate(90deg);
+      margin: 1rem 0;
+    }
+  }
+  </style>
+
+  <!-- Artículo 12: Automatización de Pruebas en Entradas/Salidas -->
+<section class="page" id="art12">
+    <article class="article">
+      <h2 class="article-title">Automatización de Pruebas E/S: Calidad Técnica Repetible</h2>
+  
+      <div class="scrollable-content">
+        <!-- Introducción Técnica -->
+        <div class="intro-card-12">
+          <p class="lead-text-12">La automatización de pruebas en sistemas de entrada/salida es esencial para validar la integridad y rendimiento de los datos. Implementar pruebas técnicas repetibles permite detectar errores de formato, rendimiento y carga antes de llevar a producción.</p>
+          <p>Con procesos automatizados, las organizaciones garantizan una cobertura amplia y consistente, reduciendo la intervención manual y acelerando ciclos de entrega sin sacrificar la calidad.</p>
+        </div>
+  
+        <!-- Tipos de Pruebas -->
+        <div class="test-types-12">
+          <h3>🧪 Tipos de Pruebas E/S</h3>
+          <div class="test-grid-12">
+            <div class="test-card-12">
+              <h4>Pruebas de Validación</h4>
+              <p>Verifican la sintaxis y formatos de datos de entrada. Por ejemplo, uso de expresiones regulares (<code>regex</code>) para validar correos electrónicos y garantizar que solo lleguen datos conformes.</p>
+            </div>
+            <div class="test-card-12">
+              <h4>Pruebas de Carga</h4>
+              <p>Simulan entradas concurrentes masivas, como 10,000 solicitudes simultáneas, para medir la capacidad y escalabilidad del sistema. Herramientas como <code>k6</code> permiten definir escenarios de carga realistas.</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Ejemplo de Script en k6 -->
+        <div class="code-example-12">
+          <h3>📜 Ejemplo: Script de k6 para Pruebas de Carga</h3>
+          <pre><code class="language-javascript">import http from 'k6/http';
+  import { check, sleep } from 'k6';
+  
+  export let options = {
+    stages: [
+      { duration: '30s', target: 1000 },
+      { duration: '1m', target: 10000 },
+      { duration: '30s', target: 0 },
+    ],
+  };
+  
+  export default function () {
+    const res = http.post('https://api.example.com/login', {
+      username: 'test_user',
+      password: '123456',
+    });
+    check(res, { 'status is 200': (r) => r.status === 200 });
+    sleep(1);
+  }</code></pre>
+          <p>Este script define un aumento progresivo de carga y verifica que la respuesta de inicio de sesión sea exitosa en cada iteración.</p>
+        </div>
+  
+        <!-- Buenas Prácticas -->
+        <div class="best-practices-12">
+          <h3>✅ Buenas Prácticas de Automatización</h3>
+          <ul class="practice-list-12">
+            <li>Versionar scripts en control de código para trazabilidad.</li>
+            <li>Integrar pruebas en pipelines CI/CD para ejecución continua.</li>
+            <li>Monitorear métricas de desempeño y establecer umbrales de alerta.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos específicos Artículo 12 */
+  .intro-card-12 {
+    background: #F0F4FF;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+  
+  .test-grid-12 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .test-card-12 {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .code-example-12 {
+    background: #FFF5F5;
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+  }
+  
+  .language-javascript {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+  }
+  
+  .best-practices-12 {
+    background: #E8FFE8;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-top: 2rem;
+  }
+  
+  .practice-list-12 {
+    list-style: disc inside;
+  }
+  </style>
+  
+  <!-- Artículo 13: Optimización de Rendimiento y Manejo de Errores -->
+  <section class="page" id="art13">
+    <article class="article">
+      <h2 class="article-title">Rendimiento y Resiliencia: Optimización de E/S y Gestión de Errores</h2>
+      
+      <div class="scrollable-content">
+        <!-- Introducción Técnica -->
+        <div class="performance-intro">
+          <p class="lead-text">La eficiencia en sistemas de E/S no solo se trata de velocidad, sino de diseñar arquitecturas resilientes que manejen cargas variables y fallos de manera predecible.</p>
+          
+          <div class="performance-stats">
+            <div class="stat-card">
+              <div class="stat-value">70%</div>
+              <div class="stat-label">Reducción de latencia con caché</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">99.9%</div>
+              <div class="stat-label">Disponibilidad con manejo de errores</div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Estrategias de Optimización -->
+        <div class="optimization-section">
+          <h3>🚀 Estrategias de Rendimiento</h3>
+          
+          <div class="strategy-card">
+            <div class="strategy-icon">💾</div>
+            <h4>Buffering y Procesamiento por Lotes</h4>
+            <p>Técnicas para reducir la sobrecarga de operaciones de E/S:</p>
+            
+            <div class="code-example">
+              <pre><code class="language-python"># Ejemplo: Inserción masiva de registros
+datos = [registro1, registro2, ..., registro1000]
+cursor.executemany("INSERT INTO ventas VALUES (?, ?)", datos)
+
+# Buffering con Redis
+cache = redis.Redis()
+cache.set('resultados_frecuentes', json.dumps(datos_procesados))
+resultados = json.loads(cache.get('resultados_frecuentes'))</code></pre>
+            </div>
+            
+            <div class="performance-breakdown">
+              <div class="metric">
+                <div class="metric-label">Sin Optimización</div>
+                <div class="metric-bar" style="width: 70%">1000 ms</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Con Batch/Caché</div>
+                <div class="metric-bar" style="width: 30%">300 ms</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="strategy-card">
+            <div class="strategy-icon">🛡️</div>
+            <h4>Manejo Estructurado de Errores</h4>
+            <p>Comunicación técnica precisa para diagnóstico y recuperación:</p>
+            
+            <div class="code-example">
+              <pre><code class="language-json">{
+  "error": {
+    "code": "VALIDATION_001",
+    "message": "Formato de email inválido",
+    "details": "El campo 'email' debe contener '@' y un dominio válido",
+    "timestamp": "2025-05-13T22:40:49-04:00"
+  }
+}</code></pre>
+            </div>
+            
+            <div class="logging-example">
+              <pre><code class="language-python"># Ejemplo de log estructurado
+import logging
+
+logging.basicConfig(
+    format='%(asctime)s - %(levelname)s: %(message)s',
+    level=logging.INFO
+)
+
+try:
+    resultado = procesar_sensor()
+except SensorError as e:
+    logging.error(f'Error en sensor: {e}', 
+                  extra={'sensor_id': 'A32', 'valor': e.valor})</code></pre>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Herramientas y Tecnologías -->
+        <div class="tools-section">
+          <h3>🔧 Herramientas Clave</h3>
+          <div class="tools-grid">
+            <div class="tool-card">
+              <div class="tool-icon">🗄️</div>
+              <h4>Redis</h4>
+              <p>Caché en memoria para reducir latencia de consultas repetitivas.</p>
+            </div>
+            <div class="tool-card">
+              <div class="tool-icon">📊</div>
+              <h4>Prometheus</h4>
+              <p>Monitoreo y alertas para rendimiento y errores.</p>
+            </div>
+            <div class="tool-card">
+              <div class="tool-icon">🔍</div>
+              <h4>ELK Stack</h4>
+              <p>Agregación y análisis de logs distribuidos.</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Principios de Diseño -->
+        <div class="design-principles">
+          <h3>✅ Principios Fundamentales</h3>
+          <ul class="principle-list">
+            <li>Minimizar operaciones de E/S bloqueantes</li>
+            <li>Implementar timeouts y circuitos de corte</li>
+            <li>Diseñar errores informativos y recuperables</li>
+            <li>Usar caché estratégicamente</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos para Artículo 13 */
+  .performance-intro {
+    background: linear-gradient(135deg, #E6F3FF 0%, #F0F8FF 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .performance-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .optimization-section {
+    margin: 3rem 0;
+  }
+
+  .strategy-card {
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .strategy-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .performance-breakdown .metric-bar {
+    background: #1A3E5C;
+    height: 30px;
+    border-radius: 4px;
+    color: white;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .tool-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .tool-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .design-principles {
+    background: #E8F5E9;
+    padding: 2rem;
+    border-radius: 16px;
+  }
+
+  .principle-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .principle-list li {
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.6);
+    margin: 0.5rem 0;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .performance-stats,
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  </style>
+  
+  <!-- Artículo 14: Diseño de Diálogos -->
+<section class="page" id="art14">
+    <article class="article">
+      <h2 class="article-title">Ingeniería de Conversaciones: Flujos Dialógicos Efectivos</h2>
+  
+      <div class="scrollable-content">
+        <!-- Introducción Conceptual -->
+        <div class="intro-section">
+          <p class="lead-text">Los sistemas dialógicos modernos manejan el 42% de las interacciones usuario-máquina. Un diseño efectivo reduce la tasa de abandono en un 67% mediante flujos conversacionales intuitivos y técnicamente robustos.</p>
+          
+          <div class="conversation-stats">
+            <div class="stat-card">
+              <div class="stat-value">3.2s</div>
+              <div class="stat-label">Tiempo respuesta óptimo</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">92%</div>
+              <div class="stat-label">Éxito en flujos guiados</div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Anatomía Técnica -->
+        <div class="anatomy-grid">
+          <div class="anatomy-card">
+            <div class="anatomy-icon">🗣️</div>
+            <h3>Componentes Clave</h3>
+            <p>Los diálogos efectivos integran cuatro capas técnicas:</p>
+            <ol class="technical-list">
+              <li><strong>Reconocimiento:</strong> ASR con precisión >95%</li>
+              <li><strong>Interpretación:</strong> Modelado NLU con embeddings</li>
+              <li><strong>Gestión:</strong> Mantenimiento de contexto</li>
+              <li><strong>Generación:</strong> Sintetización natural</li>
+            </ol>
+          </div>
+          
+          <div class="anatomy-card">
+            <div class="anatomy-icon">⚙️</div>
+            <h3>Parámetros Técnicos</h3>
+            <ul class="spec-list">
+              <li>Latencia máxima: 800ms</li>
+              <li>Umbral de confianza: 85%</li>
+              <li>Límite de repeticiones: 3</li>
+              <li>Tamaño contexto: 5-7 variables</li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Patrones de Diseño -->
+        <div class="pattern-section">
+          <h3>🔄 Patrones de Flujo Comprobados</h3>
+          
+          <div class="pattern-example">
+            <h4>1. Diálogo Lineal Guiado</h4>
+            <p>Estructura predefinida ideal para procesos secuenciales como registros o configuraciones iniciales. Reduce la carga cognitiva en un 40% comparado con flujos abiertos.</p>
+            <div class="flow-visual">
+              <div class="flow-step">Inicio</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Paso 1</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Paso 2</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Confirmación</div>
+            </div>
+          </div>
+          
+          <div class="pattern-example">
+            <h4>2. Diálogo No Lineal Adaptativo</h4>
+            <p>Flujo dinámico basado en intenciones del usuario, utilizando modelos de machine learning para predecir rutas óptimas. Aumenta la satisfacción en un 28%.</p>
+            <div class="branching-visual">
+              <div class="node">Inicio</div>
+              <div class="branches">
+                <div class="branch">
+                  <div class="node">Opción A</div>
+                  <div class="sub-branches">
+                    <div class="node">Subflujo 1</div>
+                    <div class="node">Subflujo 2</div>
+                  </div>
+                </div>
+                <div class="branch">
+                  <div class="node">Opción B</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Caso de Éxito -->
+        <div class="case-study">
+          <div class="case-header">
+            <div class="case-icon">🏦</div>
+            <h3>Transformación en Banca Telefónica</h3>
+          </div>
+          <div class="case-content">
+            <p>Implementación de diálogos multimodales que combinan voz y DTMF redujo los tiempos de servicio en un 58%:</p>
+            
+            <div class="improvement-chart">
+              <div class="metric">
+                <div class="metric-label">Antes</div>
+                <div class="metric-bar" style="width: 70%">4.2 min</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Después</div>
+                <div class="metric-bar" style="width: 100%">1.8 min</div>
+              </div>
+            </div>
+            
+            <div class="tech-details">
+              <h4>Tecnologías Clave</h4>
+              <ul class="tech-tags">
+                <li>ASR con adaptación acústica</li>
+                <li>Modelo de intención hierarchical</li>
+                <li>Cache de contexto</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Checklist Técnico -->
+        <div class="checklist-section">
+          <h3>✅ Principios de Implementación</h3>
+          <div class="checklist-grid">
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Mapeo claro entre intenciones y acciones</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Límite de 3 repeticiones por paso</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p>Escalación a humano en fallos consecutivos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  /* Estilos alineados con artículos anteriores */
+  .intro-section {
+    margin-bottom: 3rem;
+  }
+  
+  .conversation-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .anatomy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .anatomy-card {
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .pattern-section {
+    margin: 4rem 0;
+  }
+  
+  .pattern-example {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #F8F9FA;
+    border-radius: 16px;
+  }
+  
+  .flow-visual, .branching-visual {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+  }
+  
+  .flow-step {
+    padding: 1rem 2rem;
+    background: #E8F5EF;
+    border-radius: 8px;
+    margin: 0 1rem;
+  }
+  
+  .branching-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .node {
+    padding: 1rem;
+    background: #E6F0FF;
+    border-radius: 8px;
+    margin: 0.5rem;
+    text-align: center;
+  }
+  
+  .case-study {
+    background: linear-gradient(135deg, #FFF5E6 0%, #FFEECC 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 3rem 0;
+  }
+  
+  .improvement-chart {
+    margin: 2rem 0;
+  }
+  
+  .metric-bar {
+    height: 30px;
+    background: #1A3E5C;
+    color: white;
+    text-align: right;
+    padding-right: 8px;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+  
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .flow-visual {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .flow-arrow {
+      transform: rotate(90deg);
+      margin: 1rem 0;
+    }
+  }
+  </style>
+  
+    <!-- Artículo 19: Entretenimiento UX -->
+    <section class="page" id="art18">
         <article class="article">
-          <h2>6. Entretenimiento UX: Gamificación y Microjuegos</h2>
+          <h2>Entretenimiento UX: Gamificación y Microjuegos</h2>
           <p>¡Pon a prueba tus conocimientos con este quiz interactivo sobre diseño de interfaces!</p>
           
           <div class="quiz-game card">
@@ -1840,6 +3272,660 @@ button.addEventListener('click', () => {
           </div>
         </article>
       </section>
+
+    <!-- Artículo 15: Validación en Diálogos -->
+  <section class="page" id="art15">
+    <article class="article">
+      <h2 class="article-title">Validación en Diálogos: Evitar Errores en Tiempo Real ⚡</h2>
+      
+      <div class="scrollable-content">
+        <div class="intro-section animated-entrance">
+          <p class="lead-text">Los sistemas dialógicos modernos manejan el 42% de las interacciones usuario-máquina. Una validación efectiva reduce la tasa de abandono en un 67% mediante retroalimentación instantánea y técnicamente robusta.</p>
+          
+          <div class="info-badge">📊 Mejorando la experiencia del usuario y la calidad de los datos</div>
+          
+          <div class="conversation-stats">
+            <div class="stat-card animate-pulse">
+              <div class="stat-value">3.2s</div>
+              <div class="stat-label">Tiempo respuesta óptimo</div>
+            </div>
+            <div class="stat-card animate-pulse">
+              <div class="stat-value">40%</div>
+              <div class="stat-label">Reducción de errores</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido completo del artículo de validación de diálogos -->
+        <div class="article-content">
+          <section class="dialog-validation-section highlight-block">
+            <h3><i class="icon">⚠️</i> Introducción: La Importancia de Validar al Instante</h3>
+            <p>En el dinámico mundo de las interfaces digitales, los diálogos (como formularios, modales o pop-ups) son puntos cruciales de interacción. La validación en tiempo real dentro de estos diálogos no es solo una característica deseable, sino un componente esencial para una experiencia de usuario fluida y eficiente. Al proporcionar retroalimentación instantánea, guiamos al usuario, prevenimos errores comunes y aumentamos significativamente la probabilidad de que completen una tarea con éxito.</p>
+          </section>
+
+          <section class="definition-section animated-entrance">
+            <h3><i class="icon">🔍</i> ¿Qué Son los Diálogos y Por Qué es Crucial su Validación?</h3>
+            <p>Un <strong class="highlight-text">diálogo</strong>, en el contexto de la interfaz de usuario (UI), es una ventana o panel que aparece para solicitar información específica, confirmar una acción, o presentar una alerta. Pueden ser modales (bloqueando el resto de la interfaz) o no modales.</p>
+            <div class="tech-details">
+              <p>La validación es el proceso de asegurar que los datos ingresados por el usuario sean correctos, completos y cumplan con los formatos esperados. En los diálogos, esto es vital para:</p>
+              <ul class="tech-tags">
+                <li>✅ Mantener la <strong>integridad de los datos</strong></li>
+                <li>🛡️ Guiar al usuario y <strong>prevenir frustraciones</strong></li>
+                <li>⚡ Acelerar el proceso de entrada de datos</li>
+                <li>⏱️ Ahorrar tiempo y recursos</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="principles-section animated-entrance">
+            <h3><i class="icon">🌟</i> Principios de una Validación Eficaz en Tiempo Real</h3>
+            <p class="section-intro">Para que la validación en tiempo real sea verdaderamente útil, debe seguir ciertos principios clave:</p>
+            <ul class="principle-list animated-list">
+              <li><i class="icon">⚡</i> <strong>Retroalimentación Inmediata:</strong> Validar mientras el usuario escribe o justo después de que abandona un campo</li>
+              <li><i class="icon">💬</i> <strong>Mensajes Claros y Constructivos:</strong> Indicar qué está mal y cómo corregirlo</li>
+              <li><i class="icon">👍</i> <strong>Refuerzo Positivo:</strong> Indicar visualmente cuando un campo se ha llenado correctamente</li>
+              <li><i class="icon">👁️</i> <strong>No Intrusiva:</strong> La validación no debe interrumpir excesivamente el flujo del usuario</li>
+              <li><i class="icon">♿</i> <strong>Accesibilidad:</strong> Asegurar que los mensajes sean perceptibles por todos los usuarios</li>
+            </ul>
+          </section>
+
+          <section class="flow-diagram-section animated-entrance">
+            <h3><i class="icon">🔄</i> Diagrama de Flujo: Validación en Tiempo Real</h3>
+            <div class="flow-visual">
+              <div class="flow-step">
+                <div class="step-icon">⌨️</div>
+                <div class="step-text">Entrada del Usuario</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">
+                <div class="step-icon">⚙️</div>
+                <div class="step-text">Validación</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">
+                <div class="step-icon">✅/❌</div>
+                <div class="step-text">Feedback</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="common-errors animated-entrance">
+            <h3><i class="icon">💣</i> Errores Comunes a Evitar</h3>
+            <div class="error-grid">
+              <div class="error-item">
+                <div class="error-icon">⏱️</div>
+                <div class="error-text">Validación prematura o excesiva</div>
+              </div>
+              <div class="error-item">
+                <div class="error-icon">❓</div>
+                <div class="error-text">Mensajes vagos o culpabilizadores</div>
+              </div>
+              <div class="error-item">
+                <div class="error-icon">⚠️</div>
+                <div class="error-text">Confiar solo en validación client-side</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="impact-section highlight-block animated-entrance">
+            <h3><i class="icon">📈</i> Impacto Medible: Estadísticas Clave</h3>
+            <div class="performance-stats">
+              <div class="stat-item animate-pulse">
+                <span class="stat-icon">📝</span>
+                <span class="stat-value">20-50%</span>
+                <span class="stat-label">Aumento en tasas de finalización de formularios</span>
+              </div>
+              <div class="stat-item animate-pulse">
+                <span class="stat-icon">⏱️</span>
+                <span class="stat-value">15-30%</span>
+                <span class="stat-label">Reducción en tiempo para completar tareas</span>
+              </div>
+              <div class="stat-item animate-pulse">
+                <span class="stat-icon">😊</span>
+                <span class="stat-value">Hasta 60%</span>
+                <span class="stat-label">Menos abandonos por frustración</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="conclusion-section animated-entrance">
+            <h3><i class="icon">🎯</i> Conclusión: Hacia Diálogos Más Inteligentes</h3>
+            <p>La validación en tiempo real en diálogos es una inversión fundamental en la experiencia del usuario. Al anticipar y guiar, transformamos potenciales puntos de fricción en interacciones fluidas y exitosas. A medida que las tecnologías evolucionan, podemos esperar validaciones aún más inteligentes y contextuales, posiblemente asistidas por IA.</p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <style>
+      /* Estilos específicos para el artículo de validación */
+      #art15 .info-badge {
+        background: linear-gradient(135deg, #6DAA8B 0%, #2C5F8A 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        display: inline-block;
+        margin: 1rem 0;
+        font-weight: bold;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+      }
+
+      #art15 .highlight-block {
+        background: rgba(109, 170, 139, 0.1);
+        border-left: 4px solid #6DAA8B;
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1.5rem 0;
+      }
+
+      #art15 .highlight-text {
+        color: #2C5F8A;
+        font-weight: bold;
+      }
+
+      #art15 .icon {
+        margin-right: 0.5rem;
+        display: inline-block;
+      }
+
+      #art15 .animated-list li {
+        transform: translateX(0);
+        transition: transform 0.3s ease;
+      }
+
+      #art15 .animated-list li:hover {
+        transform: translateX(10px);
+      }
+
+      #art15 .animate-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+
+      #art15 .error-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      #art15 .error-item {
+        background: rgba(255, 76, 76, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      #art15 .error-icon {
+        font-size: 1.5rem;
+        margin-right: 0.75rem;
+      }
+
+      #art15 .step-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      #art15 .stat-icon {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </section>
+
+  <section class="page" id="art16">
+    <article class="article">
+      <h2 class="article-title">Diálogos Multimodales: Combinando Voz, Texto y Gestos</h2>
+  
+      <div class="scrollable-content">
+        <div class="intro-section">
+          <p class="lead-text">
+            Los diálogos multimodales representan la siguiente frontera en la interacción humano-máquina, permitiendo a los usuarios comunicarse a través de múltiples canales como la voz, el texto y los gestos de forma simultánea o intercambiable. Esta flexibilidad crea experiencias más naturales, eficientes y accesibles, adaptándose mejor al contexto del usuario y a sus preferencias. Se estima que los sistemas multimodales pueden mejorar la eficiencia de las tareas en un 35% en entornos complejos.
+          </p>
+          <div class="multimodal-stats">
+            <div class="stat-card">
+              <div class="stat-value">70%</div>
+              <div class="stat-label">Usuarios prefieren multimodalidad en tareas complejas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">>25%</div>
+              <div class="stat-label">Reducción de errores con entradas redundantes</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="definition-section">
+           <h3>Entendiendo la Multimodalidad en la Interacción</h3>
+           <p>
+             Un sistema de diálogo multimodal es aquel capaz de procesar y coordinar información proveniente de dos o más modos de entrada (ej. voz y tacto) y/o generar salidas a través de múltiples modos (ej. respuesta visual y auditiva). La clave reside en la <strong class="text-primary-dark">fusión inteligente</strong> de estas entradas para interpretar la intención del usuario y en la <strong class="text-primary-dark">presentación coordinada</strong> de las salidas.
+           </p>
+        </div>
+  
+        <div class="anatomy-grid">
+          <div class="anatomy-card">
+            <div class="anatomy-icon">🎙️📝🖐️</div>
+            <h3>Componentes Clave de Fusión</h3>
+            <p>Un sistema multimodal robusto integra varios módulos especializados:</p>
+            <ol class="technical-list">
+              <li><strong>Reconocimiento de Voz (ASR):</strong> Transcripción de audio a texto.</li>
+              <li><strong>Procesamiento de Lenguaje Natural (NLU):</strong> Extracción de intención y entidades del texto (voz o escrito).</li>
+              <li><strong>Reconocimiento Gestual/Visual:</strong> Interpretación de gestos, miradas o posturas mediante cámaras o sensores.</li>
+              <li><strong>Procesador de Entrada Táctil/Texto:</strong> Manejo de entradas de teclado, pantalla táctil.</li>
+              <li><strong>Motor de Fusión de Entradas:</strong> Combina y desambigua información de múltiples modos.</li>
+              <li><strong>Gestor de Diálogo Multimodal:</strong> Mantiene el estado de la conversación y decide la siguiente acción.</li>
+              <li><strong>Generador de Respuesta Multimodal:</strong> Compone la salida (voz, texto, gráficos, háptica) de forma coordinada.</li>
+            </ol>
+          </div>
+          
+          <div class="anatomy-card">
+            <div class="anatomy-icon">⚙️</div>
+            <h3>Consideraciones Técnicas Cruciales</h3>
+            <p>El diseño de estos sistemas presenta desafíos únicos:</p>
+            <ul class="spec-list">
+              <li><strong>Sincronización Temporal:</strong> Alinear entradas que ocurren en momentos ligeramente diferentes (ej. señalar y hablar).</li>
+              <li><strong>Resolución de Ambigüedad y Conflicto:</strong> ¿Qué hacer si la voz contradice el gesto?</li>
+              <li><strong>Latencia de Fusión:</strong> El procesamiento combinado no debe introducir retrasos perceptibles.</li>
+              <li><strong>Adaptabilidad Contextual:</strong> El sistema debe entender cuándo un modo es más apropiado que otro.</li>
+              <li><strong>Gestión del Ancho de Banda:</strong> Especialmente para datos de video o sensores continuos.</li>
+              <li><strong>Robustez ante Fallos Modales:</strong> Si un modo falla (ej. reconocimiento de voz en entorno ruidoso), el sistema debe adaptarse.</li>
+            </ul>
+          </div>
+        </div>
+  
+        <div class="pattern-section">
+          <h3>🔄 Patrones de Interacción Multimodal Efectivos</h3>
+          <p class="lead-text" style="font-size: 1rem; margin-bottom: 1.5rem;">Existen patrones comunes que guían cómo los diferentes modos pueden trabajar juntos para mejorar la interacción:</p>
+          
+          <div class="pattern-example">
+            <h4>1. Complementariedad Modal</h4>
+            <p>El usuario combina diferentes modos para expresar una única intención, donde cada modo aporta información parcial. Ejemplo: señalar un objeto en pantalla (gesto) y decir "muéstrame más detalles de <em>esto</em>" (voz).</p>
+            <div class="flow-visual">
+              <div class="flow-step">Gesto: Señalar Objeto X</div>
+              <div class="flow-plus">+</div>
+              <div class="flow-step">Voz: "Información de esto"</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Acción: Mostrar Detalles Objeto X</div>
+            </div>
+          </div>
+          
+          <div class="pattern-example">
+            <h4>2. Redundancia Modal</h4>
+            <p>La misma información se transmite a través de múltiples modos para reforzar el mensaje o asegurar la accesibilidad. Ejemplo: una alerta crítica se muestra visualmente en pantalla y se anuncia por voz.</p>
+            <div class="flow-visual">
+               <div class="flow-step">Alerta Visual Importante</div>
+               <div class="flow-parallel">&</div>
+               <div class="flow-step">Alerta Auditiva (Voz/Sonido)</div>
+               <div class="flow-arrow">→</div>
+               <div class="flow-step">Mayor Comprensión y Alcance</div>
+            </div>
+          </div>
+  
+          <div class="pattern-example">
+            <h4>3. Transferencia Modal (Cambio de Modo)</h4>
+            <p>El usuario (o el sistema) cambia de un modo de interacción a otro durante el diálogo, según la conveniencia o el contexto. Ejemplo: iniciar una búsqueda por voz y luego refinarla usando el teclado.</p>
+            <div class="flow-visual">
+               <div class="flow-step">Voz: "Buscar restaurantes italianos"</div>
+               <div class="flow-arrow">🔄</div>
+               <div class="flow-step">Texto: (Refinar) "cerca de mi ubicación actual"</div>
+               <div class="flow-arrow">→</div>
+               <div class="flow-step">Resultados Ajustados</div>
+            </div>
+          </div>
+  
+          <div class="pattern-example">
+            <h4>4. Equivalencia Modal</h4>
+            <p>La tarea se puede realizar completamente usando cualquiera de los modos disponibles, ofreciendo flexibilidad total. Ejemplo: un usuario puede decir "subir volumen" o usar un control deslizante en pantalla.</p>
+            <div class="flow-visual">
+               <div class="flow-step">Voz: "Siguiente canción"</div>
+               <div class="flow-parallel">O</div>
+               <div class="flow-step">Gesto: Deslizar</div>
+               <div class="flow-parallel">O</div>
+               <div class="flow-step">Botón: Click en 'Siguiente'</div>
+               <div class="flow-arrow">→</div>
+               <div class="flow-step">Misma Acción</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="case-study">
+          <div class="case-header">
+            <div class="case-icon">🛍️</div>
+            <h3>Asistente de Compras Interactivo en Tienda Física</h3>
+          </div>
+          <div class="case-content">
+            <p>
+              Una cadena de tiendas de electrónica implementó un asistente multimodal en kioscos interactivos. Los clientes pueden:
+              <ul class="list-disc list-inside my-2 ml-4">
+                <li>Usar la <strong>voz</strong> para preguntar por productos ("¿Dónde están los auriculares con cancelación de ruido?").</li>
+                <li>Utilizar <strong>gestos</strong> (detectados por una cámara Kinect) para navegar en un mapa 3D de la tienda o señalar productos en pantalla.</li>
+                <li>Escribir en una <strong>pantalla táctil</strong> para especificar modelos exactos o filtrar búsquedas.</li>
+              </ul>
+              El sistema fusiona estas entradas; por ejemplo, un cliente puede señalar una sección en el mapa y decir "muéstrame las ofertas aquí".
+            </p>
+            <div class="improvement-chart">
+              <div class="metric">
+                <div class="metric-label">Tiempo de localización de producto</div>
+                <div class="metric-bar" style="width: 100%; background-color: #6DAA8B;">Antes: 2.5 min (promedio)</div>
+                <div class="metric-bar" style="width: 40%; margin-top: 2px;">Después: 1 min (promedio)</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Satisfacción del cliente (encuestas post-interacción)</div>
+                <div class="metric-bar" style="width: 100%; background-color: #6DAA8B;">Antes: 65% Satisfecho</div>
+                <div class="metric-bar" style="width: 90%; margin-top: 2px;">Después: 90% Satisfecho</div>
+              </div>
+            </div>
+            <div class="tech-details">
+              <h4>Tecnologías Clave Empleadas</h4>
+              <ul class="tech-tags">
+                <li>Reconocimiento de voz en el borde (edge ASR) para baja latencia.</li>
+                <li>Motor de NLU con comprensión contextual del catálogo de productos.</li>
+                <li>Cámaras de profundidad para reconocimiento de gestos y posición.</li>
+                <li>API de fusión semántica para combinar datos de voz, gesto y tacto.</li>
+                <li>Renderizado gráfico 3D para el mapa y visualización de productos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <div class="checklist-section">
+          <h3>✅ Principios Clave para Implementar Diálogos Multimodales</h3>
+          <div class="checklist-grid">
+            <div class="check-item">
+              <div class="check-icon">🎯</div>
+              <p><strong>Priorizar la Naturalidad:</strong> Elegir y combinar las modalidades que resulten más intuitivas y eficientes para la tarea y el contexto específico del usuario.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">🔄</div>
+              <p><strong>Diseñar para Transiciones Fluidas:</strong> Permitir que los usuarios cambien entre modalidades de forma sencilla y sin perder el contexto de la interacción.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">🧩</div>
+              <p><strong>Manejar la Desambiguación:</strong> Implementar estrategias robustas para interpretar correctamente las intenciones cuando las entradas de diferentes modos son parciales, complementarias o incluso conflictivas.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">💡</div>
+              <p><strong>Retroalimentación Clara:</strong> Informar al usuario qué entradas ha entendido el sistema y de qué modalidad provienen, especialmente durante la fusión de información.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">♿</div>
+              <p><strong>Asegurar la Accesibilidad:</strong> Ofrecer alternativas modales para que usuarios con diversas capacidades puedan interactuar eficazmente con el sistema.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">📊</div>
+              <p><strong>Iterar con Pruebas de Usuario:</strong> Probar exhaustivamente con usuarios reales para identificar puntos de fricción y optimizar la combinación y el flujo de las modalidades.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <style>
+  
+    /* Estilos para la Introducción Conceptual */
+    #art16 .intro-section {
+      margin-bottom: 2.5rem; /* Más espacio después de la intro */
+      padding: 1.5rem;
+      background-color: #f8f9fa; /* Fondo suave para la intro */
+      border-radius: 8px;
+    }
+    #art16 .intro-section .lead-text {
+      font-size: 1.1rem; /* Texto de introducción ligeramente más grande */
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    #art16 .multimodal-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Ajuste para más texto */
+      gap: 1.5rem; /* Espacio entre tarjetas de estadísticas */
+      margin-top: 1.5rem;
+    }
+    #art16 .stat-card {
+      background: #E8F5EF; /* Un color de acento suave */
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    #art16 .stat-card .stat-value {
+      font-size: 2.25rem; /* Valor de estadística más grande */
+      font-weight: 700;
+      color: #1A3E5C; /* Color primario oscuro */
+      margin-bottom: 0.25rem;
+    }
+    #art16 .stat-card .stat-label {
+      font-size: 0.9rem;
+      color: #2C5F8A; /* Color primario medio */
+      line-height: 1.4;
+    }
+  
+    /* Estilos para la Sección de Definición */
+    #art16 .definition-section {
+        margin: 2.5rem 0;
+        padding: 1.5rem;
+        background: #eef2f9; /* Un azul muy pálido */
+        border-left: 4px solid #2C5F8A; /* Borde de acento azul */
+        border-radius: 8px;
+    }
+     #art16 .definition-section h3 {
+        color: #1A3E5C;
+        margin-bottom: 0.75rem;
+        font-size: 1.4rem; /* Tamaño de H3 */
+     }
+     #art16 .definition-section p {
+         font-size: 1rem;
+         line-height: 1.6;
+         color: #333;
+     }
+  
+    /* Estilos para Anatomía Técnica */
+    #art16 .anatomy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Ancho mínimo mayor */
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    #art16 .anatomy-card {
+      padding: 1.5rem; /* Padding ajustado */
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08); /* Sombra más pronunciada */
+    }
+     #art16 .anatomy-card h3 {
+        color: #1A3E5C;
+        margin-bottom: 1rem;
+        font-size: 1.25rem; /* Tamaño de H3 en tarjeta */
+     }
+    #art16 .anatomy-icon {
+      font-size: 2.25rem; /* Icono más grande */
+      margin-bottom: 0.75rem;
+      color: #2C5F8A;
+    }
+    #art16 .technical-list, #art16 .spec-list {
+      list-style-position: outside; /* Para mejor alineación con padding */
+      padding-left: 1.25rem; /* Espacio para los bullets */
+    }
+    #art16 .technical-list li, #art16 .spec-list li {
+      margin-bottom: 0.6rem; /* Espacio entre ítems */
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #454545;
+    }
+  
+    /* Estilos para Patrones de Diseño */
+    #art16 .pattern-section { margin: 3rem 0; }
+    #art16 .pattern-section > h3 { /* Estilo para el H3 principal de la sección */
+      color: #1A3E5C; 
+      margin-bottom: 1rem; 
+      font-size: 1.75rem;
+    }
+    #art16 .pattern-example {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #F8F9FA;
+      border-radius: 12px; /* Bordes más suaves */
+      border: 1px solid #e9ecef;
+    }
+     #art16 .pattern-example h4 { 
+       color: #2C5F8A; 
+       margin-bottom: 0.75rem; 
+       font-size: 1.15rem;
+     }
+     #art16 .pattern-example p { 
+       font-size: 0.95rem; 
+       margin-bottom: 1rem; 
+       line-height: 1.6; 
+       color: #555;
+     }
+  
+    #art16 .flow-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+      margin: 1rem 0; /* Margen ajustado */
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0; /* Borde sutil */
+    }
+    #art16 .flow-step {
+      padding: 0.6rem 1.2rem; /* Padding ajustado */
+      background: #E8F5EF;
+      color: #1A3E5C;
+      border-radius: 6px; /* Bordes más suaves */
+      margin: 0.25rem 0.4rem; /* Margen ajustado para wrap */
+      text-align: center;
+      font-size: 0.85rem; /* Texto más pequeño en los pasos */
+      border: 1px solid #d1e7dd;
+    }
+    #art16 .flow-arrow, #art16 .flow-plus, #art16 .flow-parallel {
+      font-size: 1.25rem; /* Iconos de flecha/operador más pequeños */
+      color: #6DAA8B;
+      margin: 0.25rem 0.4rem;
+    }
+    #art16 .flow-parallel { font-style: italic; font-weight: bold; }
+  
+  
+    /* Estilos para Caso de Éxito */
+    #art16 .case-study {
+      background: linear-gradient(135deg, #f0f5ff 0%, #e6efff 100%); /* Azul muy pálido */
+      padding: 2rem;
+      border-radius: 16px;
+      margin: 3rem 0;
+      border: 1px solid #d1dfff;
+    }
+    #art16 .case-study .case-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem; /* Más espacio */
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed #b4c9e2; /* Línea discontinua */
+    }
+    #art16 .case-study .case-icon { font-size: 2.75rem; color: #2C5F8A; }
+    #art16 .case-study .case-header h3 { color: #1A3E5C; font-size: 1.5rem;}
+    #art16 .case-study .case-content p { margin-bottom: 1rem; font-size: 1rem; line-height: 1.7; color: #333;}
+    #art16 .case-study .improvement-chart { margin: 1.5rem 0; }
+    #art16 .case-study .metric { margin-bottom: 1rem; } /* Más espacio entre métricas */
+    #art16 .case-study .metric-label { font-size: 0.9rem; color: #2C5F8A; margin-bottom: 0.25rem; font-weight: 600;}
+    #art16 .case-study .metric-bar {
+      height: 22px;
+      color: white;
+      text-align: center;
+      line-height: 22px;
+      border-radius: 4px;
+      font-size: 0.8rem; /* Texto de barra más pequeño */
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    }
+    #art16 .case-study .tech-details h4 { 
+        color: #1A3E5C; 
+        margin-top: 2rem; 
+        margin-bottom: 0.75rem; 
+        font-size: 1.1rem;
+        border-top: 1px solid #d1dfff;
+        padding-top: 1rem;
+    }
+    #art16 .case-study .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem; /* Espacio entre tags */
+    }
+    #art16 .case-study .tech-tags li {
+      background: #6DAA8B;
+      color: white;
+      padding: 0.3rem 0.8rem; /* Padding ajustado */
+      border-radius: 16px; /* Más redondeado */
+      font-size: 0.8rem; /* Texto de tag más pequeño */
+      list-style-type: none;
+    }
+  
+    /* Estilos para Checklist Técnico */
+    #art16 .checklist-section { margin-top: 3rem; }
+    #art16 .checklist-section > h3 { 
+        color: #1A3E5C; 
+        margin-bottom: 1.5rem; 
+        font-size: 1.75rem;
+    }
+    #art16 .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    #art16 .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem; /* Más espacio para el ícono */
+      padding: 1.25rem; /* Más padding interno */
+      background: #fdfdff; /* Blanco casi puro */
+      border-left: 4px solid #6DAA8B;
+      border-radius: 8px; /* Bordes más suaves */
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #333;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.07);
+    }
+    #art16 .check-item .check-icon {
+      font-size: 1.3rem; /* Icono de check más grande */
+      color: #6DAA8B;
+      margin-top: 0.1rem; /* Alineación fina */
+    }
+     #art16 .check-item p strong {
+         color: #1A3E5C; /* Resaltar el inicio del principio */
+     }
+  
+  
+    /* Media queries para responsividad */
+    @media (max-width: 768px) {
+      #art16 .flow-visual {
+        flex-direction: column;
+        align-items: stretch; /* Estirar los pasos en columna */
+      }
+      #art16 .flow-arrow, #art16 .flow-plus, #art16 .flow-parallel {
+        transform: rotate(90deg);
+        margin: 0.75rem auto; /* Centrar flechas/operadores */
+        width: fit-content; /* Ajustar ancho al contenido */
+      }
+      #art16 .anatomy-grid, #art16 .checklist-grid, #art16 .multimodal-stats {
+          grid-template-columns: 1fr;
+      }
+      #art16 .intro-section .lead-text, #art16 .definition-section p, #art16 .pattern-example p {
+          font-size: 1rem; /* Ajustar tamaño de fuente en móvil */
+      }
+      #art16 .stat-card .stat-value {
+          font-size: 1.8rem;
+      }
+    }
+  </style>
+  </section>
+  
 
     <!-- Contraportada -->
      <section class="page" id="prEnd">
@@ -1867,13 +3953,22 @@ button.addEventListener('click', () => {
 
             <!-- Resumen técnico -->
             <div class="tech-summary">
-                <h3>En esta unidad aprendiste:</h3>
+                <h3>📋 En esta unidad aprendiste:</h3>
                 <ul class="learned-list">
-                    <li>Patrones de diseño E/S</li>
-                    <li>Validación contextual</li>
-                    <li>Tolerancia al estrés</li>
-                    <li>Prototipado cross-platform</li>
+                    <li>🔸 Patrones de diseño E/S avanzados</li>
+                    <li>✅ Validación contextual en tiempo real</li>
+                    <li>💪 Tolerancia al estrés en sistemas</li>
+                    <li>📱 Prototipado cross-platform</li>
+                    <li>💬 Diálogos multimodales eficientes</li>
+                    <li>🎮 Gamificación de interfaces</li>
                 </ul>
+                
+                <div class="conclusion-section">
+                    <h3>💡 Conclusión: El futuro de la interacción</h3>
+                    <p>A lo largo de esta revista digital interactiva, hemos explorado los fundamentos y técnicas avanzadas del diseño de Entrada/Salida, un pilar fundamental en el desarrollo de interfaces modernas. Desde la validación en tiempo real hasta los diálogos multimodales, estas prácticas marcan el camino hacia experiencias de usuario más intuitivas, accesibles y eficientes.</p>
+                    <p>La convergencia de elementos técnicos con principios de diseño centrado en el usuario nos permite crear interfaces que no solo funcionan correctamente, sino que también generan conexiones emocionales positivas. A medida que avanzamos hacia un futuro donde la interacción humano-máquina se vuelve cada vez más natural, estos conocimientos serán herramientas invaluables en tu carrera como desarrollador.</p>
+                    <p>Recuerda que la tecnología está al servicio de las personas, y un buen diseño E/S es invisible: facilita las tareas sin llamar la atención sobre sí mismo. ¡Aplica estos principios en tus próximos proyectos y observa cómo mejora la experiencia de tus usuarios!</p>
+                </div>
                 <!-- Formulario integrado -->
             <div class="feedback-module">
                 <h3>¿Qué tema quieres en la próxima edición?</h3>
@@ -1892,198 +3987,48 @@ button.addEventListener('click', () => {
 </section>
   </div>
 
-  <div class="nav-zone" id="nav-left"></div>
-  <div class="nav-zone" id="nav-right"></div>
+  <div class="nav-zone" id="nav-left">
+    <div class="nav-arrow">❮</div>
+  </div>
+  <div class="nav-zone" id="nav-right">
+    <div class="nav-arrow">❯</div>
+  </div>
+  
+  <div class="persistent-nav">
+    <button id="menu-toggle" class="menu-button">☰</button>
+    <div id="progress-indicator"></div>
+    <div id="page-counter">1/19</div>
+  </div>
+  
+  <div id="nav-menu" class="nav-menu hidden">
+    <div class="menu-header">
+      <h3>Índice</h3>
+      <button id="menu-close">✕</button>
+    </div>
+    <ul>
+      <li><a href="#pr0" data-page="0">Portada</a></li>
+      <li><a href="#pr1" data-page="1">Índice</a></li>
+      <li><a href="#art1" data-page="2">1. Fundamentos del Diseño de E/S</a></li>
+      <li><a href="#art2" data-page="3">2. Prototipado Interactivo</a></li>
+      <li><a href="#art3" data-page="4">3. Formularios Web Optimizados</a></li>
+      <li><a href="#art4" data-page="5">4. Diseño Multiformato</a></li>
+      <li><a href="#art5" data-page="6">5. Casos de Éxito Real</a></li>
+      <li><a href="#art6" data-page="7">6. Quiz UX Express: Test de Conocimientos</a></li>
+      <li><a href="#art7" data-page="8">7. Validación en Diálogos</a></li>
+      <li><a href="#art8" data-page="9">8. Diálogos Multimodales</a></li>
+      <li><a href="#art9" data-page="10">9. Entretenimiento UX: Gamificación</a></li>
+      <li><a href="#art10" data-page="11">10. Interfaces Adaptativas</a></li>
+      <li><a href="#art11" data-page="12">11. E/S para Accesibilidad</a></li>
+      <li><a href="#art12" data-page="13">12. Métricas de Usabilidad</a></li>
+      <li><a href="#art13" data-page="14">13. Interacción IoT</a></li>
+      <li><a href="#art14" data-page="15">14. Visualización de Datos</a></li>
+      <li><a href="#art15" data-page="16">15. E/S en Realidad Aumentada</a></li>
+      <li><a href="#art16" data-page="17">16. Seguridad en E/S</a></li>
+      <li><a href="#art17" data-page="18">17. E/S del Futuro</a></li>
+      <li><a href="#prEnd" data-page="19">Contraportada</a></li>
+    </ul>
+  </div>
 
-  <script>
-    // Quiz Module Pattern
-const Quiz = (() => {
-  const questions = [
-    {
-      question: "¿Cuál es el máximo recomendado de campos en un formulario simple?",
-      options: ["5-7", "10-12", "15-20"],
-      answer: 0
-    },
-    {
-      question: "¿Qué principio establece que las opciones deben ser mínimas?",
-      options: ["Ley de Hick", "Principio de Pareto", "Ley de Fitts"],
-      answer: 0
-    },
-    {
-      question: "¿Qué color es mejor para mensajes de error?",
-      options: ["Azul", "Rojo", "Verde"],
-      answer: 1
-    },
-    {
-      question: "¿Qué elemento NO mejora un formulario?",
-      options: ["Autocompletado", "Validación en tiempo real", "Submenús anidados"],
-      answer: 2
-    },
-    {
-      question: "¿Qué técnica reduce la fatiga de formularios?",
-      options: ["Multi-step", "Campos largos", "Letra pequeña"],
-      answer: 0
-    }
-  ];
-
-  let currentQuestion = 0;
-  let score = 0;
-
-  const showQuestion = () => {
-    const q = questions[currentQuestion];
-    document.getElementById('question').innerHTML = `<h4>${q.question}</h4>`;
-    
-    const optionsHTML = q.options.map((option, i) => `
-      <button class="quiz-option" onclick="Quiz.checkAnswer(${i})">${option}</button>
-    `).join('');
-    
-    document.getElementById('options').innerHTML = optionsHTML;
-    document.getElementById('quiz-progress').style.width = 
-      `${(currentQuestion/questions.length)*100}%`;
-  };
-
-  const checkAnswer = (selected) => {
-    const buttons = document.querySelectorAll('#options button');
-    const q = questions[currentQuestion];
-    
-    buttons.forEach((btn, i) => {
-      btn.disabled = true;
-      btn.classList.remove('correct', 'incorrect');
-      if(i === q.answer) btn.classList.add('correct');
-      else if(i === selected) btn.classList.add('incorrect');
-    });
-
-    if(selected === q.answer) score++;
-    
-    setTimeout(() => {
-      updateScore();
-      currentQuestion++;
-      currentQuestion < questions.length ? showQuestion() : showResult();
-    }, 1500);
-  };
-
-  const updateScore = () => {
-    document.getElementById('score').textContent = `Puntuación: ${score}/${questions.length}`;
-  };
-
-  const showResult = () => {
-    document.getElementById('quiz-container').style.display = 'none';
-    const result = document.getElementById('result');
-    result.style.display = 'block';
-    
-    const percentage = (score/questions.length)*100;
-    result.innerHTML = `
-      <h3 id="result-title">${
-        percentage >= 80 ? '🎉 ¡Excelente!' : 
-        percentage >= 50 ? '👍 ¡Bien hecho!' : 
-        '💡 ¡Sigue practicando!'
-      }</h3>
-      <p>Obtuviste ${score} de ${questions.length} correctas</p>
-      <button class="btn-secondary" onclick="Quiz.resetQuiz()">Reintentar</button>
-    `;
-  };
-
-  const resetQuiz = () => {
-    currentQuestion = 0;
-    score = 0;
-    document.getElementById('quiz-container').style.display = 'block';
-    document.getElementById('result').style.display = 'none';
-    updateScore();
-    showQuestion();
-  };
-
-  return {
-    checkAnswer,
-    resetQuiz,
-    showQuestion
-  };
-})();
-
-// script.js (módulo Navigation)
-
-const Navigation = (() => {
-  let currentPage = 0;
-  const pages = document.querySelectorAll('.page');
-
-  const init = () => {
-    pages.forEach((page, index) => {
-      page.style.transform = `translateX(${index * 100}%)`;
-      page.style.zIndex = 999 - index;
-    });
-    pages[0].classList.add('active');
-  };
-
-  const navigate = (direction) => {
-    const newPage = direction === 'next' 
-      ? Math.min(currentPage + 1, pages.length - 1) 
-      : Math.max(currentPage - 1, 0);
-
-    if (newPage === currentPage) return;
-
-    pages.forEach((page, index) => {
-      const offset = (index - newPage) * 100; // Cálculo preciso
-      page.style.transform = `translateX(${offset}%)`;
-    });
-
-    pages[currentPage].classList.remove('active');
-    pages[newPage].classList.add('active');
-    currentPage = newPage;
-
-    // Disparar evento después de completar la transición
-    setTimeout(() => {
-      document.dispatchEvent(new CustomEvent('navigationEnd'));
-    }, 400); // Match con la duración CSS
-  };
-
-  return { init, navigate };
-})();
-
-// Sistema Principal
-document.addEventListener('DOMContentLoaded', () => {
-  Navigation.init();
-
-  document.getElementById('nav-left').addEventListener('click', () => Navigation.navigate('prev'));
-  document.getElementById('nav-right').addEventListener('click', () => Navigation.navigate('next'));
-
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'ArrowLeft') Navigation.navigate('prev');
-    if(e.key === 'ArrowRight') Navigation.navigate('next');
-  });
-
-  const form = document.getElementById('feedback-form');
-  form?.addEventListener('submit', (e) => {
-    if(!form.checkValidity()) {
-      e.preventDefault();
-      form.reportValidity();
-    }
-  });
-
-  const checkQuizPage = () => {
-    const quizPage = document.getElementById('art6');
-    if (quizPage && quizPage.classList.contains('active')) {
-      setTimeout(() => Quiz.showQuestion(), 50);
-    }
-  };
-
-  checkQuizPage();
-  document.addEventListener('navigationEnd', checkQuizPage);
-})
-
-if ('ontouchstart' in window) {
-  const navLeft = document.getElementById('nav-left');
-  const navRight = document.getElementById('nav-right');
-
-  navLeft.addEventListener('touchend', function(e) {
-    e.preventDefault(); // Evita comportamientos inesperados
-    Navigation.navigate('prev');
-  });
-
-  navRight.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    Navigation.navigate('next');
-  });
-}
-
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
